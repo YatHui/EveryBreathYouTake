@@ -1,0 +1,16 @@
+#Links to project documentation
+
+
+Project ideas / brainstorm document: 
+https://docs.google.com/document/d/1gte1IqlBd-RsJAzsqi2Dt65bB0vYjHrgykwlzv55Ez0/edit?usp=sharing
+
+Project development slides:
+https://docs.google.com/presentation/d/1QUAHIUH8Lq7A7Ki3i6h1vKpJYKoU17eFMRoqudjTIX0/edit?usp=sharing
+
+Gant Chart spreadsheet: https://docs.google.com/spreadsheets/d/1WvH3dCfGrd9KNBS5FXEEss9wLYMALDEyTkInkmERasY/edit?usp=sharing
+
+Data sources spreadsheet:
+https://docs.google.com/spreadsheets/d/1jKVCReK60IQKIGX8zsfWPUbKKEEhuK0mDG13Nb8aQIw/edit?usp=sharing
+
+
+
