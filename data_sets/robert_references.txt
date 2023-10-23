@@ -1,0 +1,24 @@
+https://ourworldindata.org/co2-dataset-sources   #owid-co2-data.json
+https://ourworldindata.org/influenza-deaths      #annual-mortality-rate-from-seasonal-influenza-ages-65.csv
+https://ourworldindata.org/pneumonia             #pneumonia-and-lower-respiratory-diseases-deaths.csv
+https://ourworldindata.org/cancer                #cancer-deaths-by-age.csv
+https://ourworldindata.org/cancer                #cancer-death-rates-by-age.csv
+https://ourworldindata.org/financing-healthcare  #public-health-expenditure-share-gdp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
