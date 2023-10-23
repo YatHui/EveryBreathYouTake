@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-import json
+
 
 CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 co2_df = pd.read_json(CURR_DIR_PATH+'\\data_sets\\air_quality\\owid-co2-data.json')
