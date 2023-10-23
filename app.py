@@ -3,8 +3,8 @@ from flask import Flask, render_template, request, url_for, redirect
 from forms import CustomerEditForm, UserEditForm, EmailEditForm, TransactionForm, DepositForm, WithdrawalForm
 from models import League, db,user_manager,Standings, User, Goalie, Team, CurrentRound, Skater,TeamSkater,TeamGoalie,SkaterStats,GoalieStats,TradeLog,ScoringRules,NewsAnnouncements,Notifications,ChatMessage,UserLog
 from flask_migrate import Migrate, upgrade
-from flask_user import login_required, roles_required, roles_accepted, current_user
-from flask_login import login_required, current_user
+# from flask_user import login_required, roles_required, roles_accepted, current_user
+# from flask_login import login_required, current_user
 
 
 app = Flask(__name__)
