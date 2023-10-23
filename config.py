@@ -1,13 +1,13 @@
-from secret_info import master_password, url
+from secret_info import master_password, url, url2
+from sqlalchemy import create_engine
+
 
 class ConfigDebug():
-   SQLALCHEMY_DATABASE_URI = url    # Postgres database
-   SECRET_KEY = master_password
+    SQLALCHEMY_DATABASE_URI = url2    # Postgres database
+    SECRET_KEY = master_password
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    
 
+    # DATABASE_URL = url # Postgres database
+    # engine = create_engine(DATABASE_URL)
 
-   # Flask-User settingsa
-   USER_APP_NAME = "Flask-User Basic App"      # Shown in and email templates and page footers
-   USER_ENABLE_EMAIL = True        # Enable email aution
-   USER_ENABLE_USERNAME = False    # Disable username authentication
-   USER_EMAIL_SENDER_NAME = USER_APP_NAME
-   USER_EMAIL_SENDER_EMAIL = "noreply@example.com" 
