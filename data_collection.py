@@ -22,7 +22,6 @@ death_factor_1990_2019df.drop(death_factor_1990_2019df.columns[death_factor_colu
 disease_factor_columns_delete = list(range(3,5)) + list(range(6,18))+ list(range(19,24))
 disease_factor_1990_2019df.drop(disease_factor_1990_2019df.columns[disease_factor_columns_delete], axis=1, inplace=True)
 
-merged_df = death_rates_1990_2019df.merge(death_factor_1990_2019df, on=['Entity', 'Code', 'Year'], how='inner')
-merged_df = merged_df.merge(disease_factor_1990_2019df, on=['Entity', 'Code', 'Year'], how='inner')
+
 
 
