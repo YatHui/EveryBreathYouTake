@@ -25,7 +25,7 @@ for col in columns_to_process:
     df_total[col] = df_total[col].str.extract(r'^([\d.]+)')
 
 # Exporting to clean csv
-df_total.to_csv('.data_sets/air_quality/mean_pm25.csv', index=False)
+df_total.to_csv('./data_sets/air_quality/mean_pm25.csv', index=False)
 
 # print(df_total)
 
