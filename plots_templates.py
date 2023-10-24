@@ -85,18 +85,32 @@ def update_graph(xaxis_column_name, yaxis_column_name,
                  xaxis_type, yaxis_type,
                  year_value):
     dff = df[df['Year'] == year_value]
+    pmdff = pmdf[pmdf['Year'] == year_value]
+
+
+    # fig = px.scatter(
+    #     dff,
+    #     x=xaxis_column_name,
+    #     y=yaxis_column_name,
+    #     hover_name=dff['Location']
+    # )
 
     fig = px.scatter(
-        dff,
-        x=xaxis_column_name,
-        y=yaxis_column_name,
+        pmdff,
+        x='Year',
+        y='FactValueNumeric',
         hover_name=dff['Location']
     )
 
-    fig.update_traces(customdata=dff['Location'])
+    # fig.update_traces(customdata=dff['Location'])
 
-    fig.update_xaxes(title=xaxis_column_name, type='linear' if xaxis_type == 'Linear' else 'log')
-    fig.update_yaxes(title=yaxis_column_name, type='linear' if yaxis_type == 'Linear' else 'log')
+    # fig.update_xaxes(title=xaxis_column_name, type='linear' if xaxis_type == 'Linear' else 'log')
+    # fig.update_yaxes(title=yaxis_column_name, type='linear' if yaxis_type == 'Linear' else 'log')
+
+    fig.update_traces(customdata=pmdff['Location'])
+
+    fig.update_xaxes(title='Year', type='linear')# if xaxis_type == 'Linear' else 'log')
+    fig.update_yaxes(title='FactValueNumeric', type='linear')# if yaxis_type == 'Linear' else 'log')
     fig.update_layout(margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest')
 
     return fig

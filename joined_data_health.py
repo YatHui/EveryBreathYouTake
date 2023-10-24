@@ -116,5 +116,5 @@ missing_in_df2 = who_pm25df[~who_pm25df['Location'].isin(health_df['Location'])]
 # print(missing_in_df2)
 
 
-print(health_df)
-print(who_pm25df)
+# print(health_df)
+# print(who_pm25df)
