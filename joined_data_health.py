@@ -24,5 +24,3 @@ disease_factor_1990_2019df.drop(disease_factor_1990_2019df.columns[disease_facto
 
 merged_df = death_rates_1990_2019df.merge(death_factor_1990_2019df, on=['Entity', 'Code', 'Year'], how='inner')
 merged_df = merged_df.merge(disease_factor_1990_2019df, on=['Entity', 'Code', 'Year'], how='inner')
-
-
