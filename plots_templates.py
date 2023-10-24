@@ -1,13 +1,13 @@
 import plotly.express as px
 import plotly.graph_objs as go
 from dash import Dash, html, dash_table, dcc, callback, Output, Input
-from data_collection import *
+from joined_data_health import *
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 
 # testing data
-df = death_rates_1990_2019df
+df = health_df
 pmdf = who_pm25df
 
 # data_2019 = df[df['Year'] == 2019]
@@ -90,10 +90,10 @@ def update_graph(xaxis_column_name, yaxis_column_name,
         dff,
         x=xaxis_column_name,
         y=yaxis_column_name,
-        hover_name=dff['Entity']
+        hover_name=dff['Location']
     )
 
-    fig.update_traces(customdata=dff['Entity'])
+    fig.update_traces(customdata=dff['Location'])
 
     fig.update_xaxes(title=xaxis_column_name, type='linear' if xaxis_type == 'Linear' else 'log')
     fig.update_yaxes(title=yaxis_column_name, type='linear' if yaxis_type == 'Linear' else 'log')
@@ -126,7 +126,7 @@ def create_time_series(dff, yaxis_column_name, axis_type, title):
     Input('crossfilter-xaxis-type', 'value'))
 def update_x_timeseries(hoverData, xaxis_column_name, axis_type):
     country_name = hoverData['points'][0]['customdata']
-    dff = df[df['Entity'] == country_name]
+    dff = df[df['Location'] == country_name]
 
     if xaxis_column_name in dff.columns:
         title = f"<b>{country_name}</b><br>{xaxis_column_name}"
@@ -143,7 +143,7 @@ def update_x_timeseries(hoverData, xaxis_column_name, axis_type):
     Input('crossfilter-yaxis-type', 'value'))
 def update_y_timeseries(hoverData, yaxis_column_name, axis_type):
     country_name = hoverData['points'][0]['customdata'] 
-    dff = df[df['Entity'] == country_name]
+    dff = df[df['Location'] == country_name]
     # Ensure that the selected yaxis_column_name is a valid column name
     if yaxis_column_name in dff.columns:
         title = f"<b>{country_name}</b><br>{yaxis_column_name}"
