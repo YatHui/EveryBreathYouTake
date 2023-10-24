@@ -25,4 +25,15 @@ disease_factor_1990_2019df.drop(disease_factor_1990_2019df.columns[disease_facto
 merged_df = death_rates_1990_2019df.merge(death_factor_1990_2019df, on=['Entity', 'Code', 'Year'], how='inner')
 merged_df = merged_df.merge(disease_factor_1990_2019df, on=['Entity', 'Code', 'Year'], how='inner')
 
-print(merged_df.columns)
+merged_df.rename(columns={'Deaths that are from all causes attributed to household air pollution from solid fuels per 100,000 people, in both sexes aged age-standardized': 'Death from household air pollution from solid fuels'}, inplace=True)
+merged_df.rename(columns={'Deaths that are from all causes attributed to ambient particulate matter pollution per 100,000 people, in both sexes aged age-standardized': 'Death from ambient particulate matter pollution'}, inplace=True)
+merged_df.rename(columns={'Deaths that are from all causes attributed to air pollution per 100,000 people, in both sexes aged age-standardized': 'Death from all causes attributed to air pollution'}, inplace=True)
+merged_df.rename(columns={'Deaths that are from all causes attributed to ambient ozone pollution per 100,000 people, in both sexes aged age-standardized': 'Death from ambient ozone pollution'}, inplace=True)
+merged_df.rename(columns={'Deaths that are from all causes attributed to household air pollution from solid fuels, in both sexes aged all ages': 'Death from household air pollution from solid fuels (all ages)'}, inplace=True)
+merged_df.rename(columns={'Deaths that are from all causes attributed to air pollution, in both sexes aged all ages': 'Death from attributed to air pollution (all ages)'}, inplace=True)
+merged_df.rename(columns={'DALYs that are from all causes attributed to household air pollution from solid fuels, in both sexes aged all ages': 'DAILY causes attributed to household air pollution (all ages)'}, inplace=True)
+merged_df.rename(columns={'DALYs that are from all causes attributed to ambient particulate matter pollution, in both sexes aged all ages': ' DAILY ambient particulate matter pollution (all ages)'}, inplace=True)
+merged_df.rename(columns={'DALYs that are from all causes attributed to air pollution, in both sexes aged all ages': 'DAILY attributed to air pollution(all ages)'}, inplace=True)
+merged_df.rename(columns={'Deaths that are from all causes attributed to ambient particulate matter pollution, in both sexes aged all ages': 'ambient particulate matter pollution(all ages)'}, inplace=True)
+
+df = merged_df[(merged_df['Year'] >= 2010) & (merged_df['Year'] <= 2019)]
