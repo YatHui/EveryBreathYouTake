@@ -8,6 +8,7 @@ app = Dash(__name__, external_stylesheets=external_stylesheets)
 
 # testing data
 df = death_rates_1990_2019df
+pmdf = who_pm25df
 
 # data_2019 = df[df['Year'] == 2019]
 column1 = "Deaths that are from all causes attributed to household air pollution from solid fuels per 100,000 people, in both sexes aged age-standardized"
