@@ -159,3 +159,8 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 test.ipynb
+migrations/alembic.ini
+migrations/env.py
+migrations/README
+migrations/script.py.mako
+secret_info.py
