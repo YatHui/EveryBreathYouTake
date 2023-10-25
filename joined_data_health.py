@@ -115,5 +115,5 @@ missing_in_df2 = who_pm25df[~who_pm25df['Location'].isin(health_df['Location'])]
 health_air_df = health_df.merge(who_pm25df, on=['Location', 'Year'], how='inner')
 health_air_df.to_csv(CURR_DIR_PATH+'.\\health_and_air_final_df.csv', index=False)
 
-# print(health_df)
-# print(health_air_df)
+
+# print(health_air_df.columns)

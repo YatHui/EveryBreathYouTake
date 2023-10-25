@@ -1,11 +1,12 @@
 import plotly.express as px
 import plotly.graph_objs as go
 import pandas as pd
-from dash import Dash, html, dash_table, dcc, callback, Output, Input
+from dash import Dash, html, dcc, callback, Output, Input
 import os
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = Dash(__name__, external_stylesheets=external_stylesheets)
+CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+stylesheet= CURR_DIR_PATH + '\\static\\css\\styles.css'
+app = Dash(__name__, external_stylesheets=[stylesheet])
 
 # final data
 CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -86,7 +87,7 @@ def update_graph(xaxis_column_name, yaxis_column_name,
         dff,
         x=xaxis_column_name,
         y=yaxis_column_name,
-        hover_name=dff['Location']
+        hover_name=dff['Location'],
     )
 
     fig.update_traces(customdata=dff['Location'])
