@@ -18,6 +18,10 @@ init_dash(app)  # Initialize the Dash app
 def indexPage():
     return render_template('index.html')
 
+@app.route("/welcome")
+def welcomePage():
+    return render_template('welcome.html')
+
 if __name__ == "__main__":
     with app.app_context():
         upgrade()
