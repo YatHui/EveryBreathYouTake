@@ -1,20 +1,16 @@
 import plotly.express as px
 import plotly.graph_objs as go
+import pandas as pd
 from dash import Dash, html, dash_table, dcc, callback, Output, Input
-from joined_data_health import *
+import os
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 
-# testing data
-df = health_df
-pmdf = who_pm25df
+# final data
+CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+df = pd.read_csv(CURR_DIR_PATH+'.\\health_and_air_final_df.csv')
 
-# data_2019 = df[df['Year'] == 2019]
-column1 = "Deaths that are from all causes attributed to household air pollution from solid fuels per 100,000 people, in both sexes aged age-standardized"
-column2 = "Deaths that are from all causes attributed to ambient particulate matter pollution per 100,000 people, in both sexes aged age-standardized"
-column3 = "Deaths that are from all causes attributed to air pollution per 100,000 people, in both sexes aged age-standardized"
-column4 = "Deaths that are from all causes attributed to ambient ozone pollution per 100,000 people, in both sexes aged age-standardized"
 columns_to_display = df.columns[3:].tolist()
 
 
@@ -85,32 +81,19 @@ def update_graph(xaxis_column_name, yaxis_column_name,
                  xaxis_type, yaxis_type,
                  year_value):
     dff = df[df['Year'] == year_value]
-    pmdff = pmdf[pmdf['Year'] == year_value]
-
-
-    # fig = px.scatter(
-    #     dff,
-    #     x=xaxis_column_name,
-    #     y=yaxis_column_name,
-    #     hover_name=dff['Location']
-    # )
 
     fig = px.scatter(
-        pmdff,
-        x='Year',
-        y='FactValueNumeric',
+        dff,
+        x=xaxis_column_name,
+        y=yaxis_column_name,
         hover_name=dff['Location']
     )
 
-    # fig.update_traces(customdata=dff['Location'])
+    fig.update_traces(customdata=dff['Location'])
 
-    # fig.update_xaxes(title=xaxis_column_name, type='linear' if xaxis_type == 'Linear' else 'log')
-    # fig.update_yaxes(title=yaxis_column_name, type='linear' if yaxis_type == 'Linear' else 'log')
+    fig.update_xaxes(title=xaxis_column_name, type='linear' if xaxis_type == 'Linear' else 'log')
+    fig.update_yaxes(title=yaxis_column_name, type='linear' if yaxis_type == 'Linear' else 'log')
 
-    fig.update_traces(customdata=pmdff['Location'])
-
-    fig.update_xaxes(title='Year', type='linear')# if xaxis_type == 'Linear' else 'log')
-    fig.update_yaxes(title='FactValueNumeric', type='linear')# if yaxis_type == 'Linear' else 'log')
     fig.update_layout(margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest')
 
     return fig
