@@ -1,27 +1,32 @@
 from datetime import datetime
 from flask import Flask, render_template, request, url_for, redirect
-from forms import CustomerEditForm,TransactionForm
-from models import League, db, User,NewsAnnouncements,ChatMessage
+from forms import CustomerEditForm, TransactionForm
+from models import League, db, User, NewsAnnouncements, ChatMessage
 from flask_migrate import Migrate, upgrade
-# from flask_user import login_required, roles_required, roles_accepted, current_user
-# from flask_login import login_required, current_user
-
+from dash_app import init_dash  # Import the function
 
 app = Flask(__name__)
 app.config.from_object('config.ConfigDebug')
 
 db.app = app
 db.init_app(app)
-migrate = Migrate(app,db)
+migrate = Migrate(app, db)
+
+init_dash(app)  # Initialize the Dash app
 
 @app.route("/")
 def indexPage():
     return render_template('index.html')
 
-if __name__  == "__main__":
+@app.route("/welcome")
+def welcomePage():
+    return render_template('welcome.html')
+
+if __name__ == "__main__":
     with app.app_context():
         upgrade()
     app.run()
+
 
 
 
