@@ -77,7 +77,6 @@ health_df = health_df[health_df['Location'] != 'American Samoa']
 health_df = health_df[health_df['Location'] != 'Bermuda']
 health_df = health_df[health_df['Location'] != 'East Asia & Pacific (WB)']
 health_df = health_df[health_df['Location'] != 'Greenland']
-# health_df = health_df[health_df['Location'] != 'East Timor']
 health_df = health_df[health_df['Location'] != 'Eastern Mediterranean Region (WHO)']
 health_df = health_df[health_df['Location'] != 'England']
 health_df = health_df[health_df['Location'] != 'Europe & Central Asia (WB)']
@@ -107,14 +106,13 @@ health_df = health_df[health_df['Location'] != 'Western Pacific Region (WHO)']
 health_df = health_df[health_df['Location'] != 'World']
 health_df = health_df[health_df['Location'] != 'Wales']
 
-concatenated_df = pd.concat([health_df, who_pm25df])
-irregularities = concatenated_df[concatenated_df.duplicated(subset='Location', keep=False)]
-
 missing_in_df1 = health_df[~health_df['Location'].isin(who_pm25df['Location'])]
 missing_in_df2 = who_pm25df[~who_pm25df['Location'].isin(health_df['Location'])]
 
 # print(missing_in_df2)
 
+health_air_df = health_df.merge(who_pm25df, on=['Location', 'Year'], how='inner')
+health_air_df.to_csv(CURR_DIR_PATH+'.\\health_and_air_final_df.csv', index=False)
 
 # print(health_df)
-# print(who_pm25df)
+# print(health_air_df)
