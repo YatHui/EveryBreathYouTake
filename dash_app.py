@@ -1,8 +1,10 @@
 # dash_app.py
 
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+#import dash_core_components as dcc
+#import dash_html_components as html
+from dash import html
+from dash import dcc
 
 def init_dash(server):
     dash_app = dash.Dash(
@@ -26,3 +28,8 @@ def init_dash(server):
     ])
 
     return dash_app
+
+
+def add_header(response):
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    return response
