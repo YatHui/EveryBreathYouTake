@@ -20,6 +20,7 @@ disease_factor_1990_2019df = pd.read_csv(CURR_DIR_PATH+'\\data_sets\\health\\dis
 who_columns_delete = list(range(0,7)) + list(range(8,9)) + list(range(10,23))+ list(range(24,29))+ list(range(30,34))
 who_pm25df.drop(who_pm25df.columns[who_columns_delete], axis=1, inplace=True)
 who_pm25df.rename(columns={'Period': 'Year'}, inplace=True)
+who_pm25df.rename(columns={'FactValueNumeric': 'PM 2.5 Airpollution'}, inplace=True)
 who_pm25df['Location'].replace({'Bolivia (Plurinational State of)': 'Bolivia'}, inplace=True)
 who_pm25df['Location'].replace({'Brunei Darussalam': 'Brunei'}, inplace=True)
 who_pm25df['Location'].replace({'Cabo Verde': 'Cape Verde'}, inplace=True)
@@ -43,7 +44,7 @@ who_pm25df['Location'].replace({'United Republic of Tanzania': 'Tanzania'}, inpl
 who_pm25df['Location'].replace({'Venezuela (Bolivarian Republic of)': 'Venezuela'}, inplace=True)
 who_pm25df['Location'].replace({'Viet Nam': 'Vietnam'}, inplace=True)
 who_pm25df.sort_values(by=['Location', 'Year'], inplace=True)
-one_value_per_year = who_pm25df.groupby(['Location', 'Year'])['FactValueNumeric'].idxmax()
+one_value_per_year = who_pm25df.groupby(['Location', 'Year'])['PM 2.5 Airpollution'].idxmax()
 who_pm25df = who_pm25df.loc[one_value_per_year]
 who_pm25df.to_csv(CURR_DIR_PATH+'\\data_sets\\air_quality\\who_pm_df.csv', index=False)
 
