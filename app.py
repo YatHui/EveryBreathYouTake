@@ -22,6 +22,10 @@ def indexPage():
 def welcomePage():
     return render_template('welcome.html')
 
+@app.route("/plots")
+def plotsPage():
+    return render_template('plots.html')
+
 if __name__ == "__main__":
     with app.app_context():
         upgrade()
