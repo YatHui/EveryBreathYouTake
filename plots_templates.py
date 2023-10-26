@@ -9,7 +9,6 @@ stylesheet= CURR_DIR_PATH + '\\static\\css\\styles.css'
 app = Dash(__name__, external_stylesheets=[stylesheet])
 
 # final data
-CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 df = pd.read_csv(CURR_DIR_PATH+'.\\health_and_air_final_df.csv')
 
 columns_to_display = df.columns[3:-2].tolist()
@@ -45,9 +44,7 @@ app.layout = html.Div([
             labelStyle={'display': 'inline-block', 'marginTop': '5px'}
         )
         ], style={'width': '49%', 'float': 'right', 'display': 'inline-block'})
-    ], style={
-        'padding': '10px 5px'
-    }),
+    ], style={'padding': '10px 5px'}),
 
     html.Div([
         dcc.Graph(

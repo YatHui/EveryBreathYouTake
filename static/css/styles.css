@@ -11388,3 +11388,20 @@ video.bg-video {
     width: auto;
   }
 }
+
+
+/* Plotstyles for medium (md) screens and larger */
+@media (min-width: 768px) {
+  .col-md-6 {
+      width: 49%; /* Make the columns take 50% of the screen width */
+      float: left; /* Float the columns to the left for side-by-side layout */
+  }
+}
+
+/* Plotstyles for small (sm) screens and smaller */
+@media (max-width: 767px) {
+  .col-md-6 {
+      width: 50%; /* Make the columns take 100% of the screen width (stacked) */
+      float: none; /* Clear the float to stack columns vertically */
+  }
+}
