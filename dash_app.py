@@ -97,9 +97,9 @@ def init_dash(server):
         filtered_data = df[df['Location'] == selected_country]
 
         # Create a new DataFrame for each line color based on PM values
-        red_data = filtered_data[filtered_data['PM 2.5 Airpollution'] > 50]
-        orange_data = filtered_data[(filtered_data['PM 2.5 Airpollution'] >= 20) & (filtered_data['PM 2.5 Airpollution'] <= 50)]
-        green_data = filtered_data[(filtered_data['PM 2.5 Airpollution'] < 20)]
+        red_data = filtered_data[filtered_data['PM 2.5 Airpollution'] > 35]
+        orange_data = filtered_data[(filtered_data['PM 2.5 Airpollution'] >= 12) & (filtered_data['PM 2.5 Airpollution'] <= 35)]
+        green_data = filtered_data[(filtered_data['PM 2.5 Airpollution'] < 12)]
 
         figure = go.Figure()
 
