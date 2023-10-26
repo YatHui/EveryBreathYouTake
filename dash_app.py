@@ -57,16 +57,16 @@ def init_dash(server):
         # Plot to show PM2.5 pollution for the selected country
         dcc.Graph(id='pm25-plot')
     ], style = {
-        'width': '80%',
+        'width': '100%',
         'margin': 'auto',
         'display': 'inline-block',
         '@media screen and (max-width: 600px)': {
-            'width': '90%',
+            'margin': '600px',
         }
     })
 
     # callback to update the line plot
-    @app.callback(
+    @callback(
         Output('line-plot', 'figure'),
         Input('country-dropdown', 'value'),
         Input('column-dropdown', 'value')
@@ -78,7 +78,7 @@ def init_dash(server):
         return figure
 
     # callback to update the PM2.5 pollution plot based on country
-    @app.callback(
+    @callback(
         Output('pm25-plot', 'figure'),
         Input('country-dropdown', 'value')
     )
