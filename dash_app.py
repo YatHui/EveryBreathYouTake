@@ -1,6 +1,6 @@
 # dash_app.py
 import dash
-# import plotly.graph_objs as go
+import plotly.graph_objs as go
 import dash_core_components as dcc
 # import dash_html_components as html
 import plotly.express as px
