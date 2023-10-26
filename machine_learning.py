@@ -6,6 +6,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, mean_squared_error, max_error, r2_score
 import matplotlib.pyplot as plt
 
+# linear regresseion på pm2.5 och en column för att dra fram en global-predicition!!!
+
 #Load data
 df = pd.read_csv('health_and_air_final_df.csv')
 

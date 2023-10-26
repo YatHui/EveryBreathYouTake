@@ -150,4 +150,5 @@ def init_dash(server):
 
         title = f"<b>{country_name}</b><br>{yaxis_column_name}"
         return create_time_series(dff, yaxis_column_name, axis_type, title)
+    
     return dash_app
