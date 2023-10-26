@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from forms import CustomerEditForm, TransactionForm
 from models import League, db, User, NewsAnnouncements, ChatMessage
 from flask_migrate import Migrate, upgrade
-from dash_app import init_dash,add_header#,init_dash_yat
+from dash_app import init_dash,add_header,second_plot
 
 app = Flask(__name__)
 app.config.from_object('config.ConfigDebug')
@@ -14,6 +14,7 @@ migrate = Migrate(app, db)
 
 init_dash(app)  # Initialize the Dash app
 #init_dash_yat(app)
+second_plot(app)
 
 @app.route("/")
 def indexPage():
