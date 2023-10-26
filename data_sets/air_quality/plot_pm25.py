@@ -5,9 +5,9 @@ import plotly.graph_objs as go
 import pandas as pd
 
 # Import data
-df_mean = pd.read_csv("pm25_mean.csv")  
-df_min = pd.read_csv("pm25_min.csv")  
-df_max = pd.read_csv("pm25_max.csv")  
+df_mean = pd.read_csv("data_sets/air_quality/pm25_mean.csv")  
+df_min = pd.read_csv("data_sets/air_quality/pm25_min.csv")  
+df_max = pd.read_csv("data_sets/air_quality/pm25_max.csv")  
 
 
 # Define columns to plot
@@ -106,4 +106,4 @@ def update_line_chart(selected_country):
     return fig
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=4000)
+    app.run_server(debug=True, port=4001)
