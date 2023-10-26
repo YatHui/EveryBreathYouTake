@@ -16,6 +16,10 @@ df_total = df.iloc[:, [0, 1, 6, 11, 16, 21, 26, 31, 36, 41, 46]]
 new_columns = ['Country','2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010' ]
 df_total.columns = new_columns
 
+# Reorder columns to start from 2010-2019
+new_column_order = ['Country', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019']
+df_total = df_total[new_column_order]
+
 # Drop top two rows
 df_total = df_total.drop(df_total.index[[0,1]])
 
