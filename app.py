@@ -26,6 +26,10 @@ def welcomePage():
 def plotsPage():
     return render_template('plots.html')
 
+@app.route("/workflow")
+def workflowPage():
+    return render_template('workflow.html')
+
 if __name__ == "__main__":
     with app.app_context():
         upgrade()
