@@ -4,146 +4,109 @@ import pandas as pd
 from dash import Dash, html, dcc, callback, Output, Input
 import os
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = Dash(__name__, external_stylesheets=external_stylesheets)
+CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+stylesheet= CURR_DIR_PATH + '\\static\\css\\styles.css'
+app = Dash(__name__, external_stylesheets=[stylesheet])
 
 # final data
-CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 df = pd.read_csv(CURR_DIR_PATH+'.\\health_and_air_final_df.csv')
-
 columns_to_display = df.columns[3:-2].tolist()
 
 
+# Define the layout of the app
 app.layout = html.Div([
-    html.Div([
-    #     html.Div([
-    #     dcc.Dropdown(
-    #         options=[{'label': column, 'value': column} for column in columns_to_display],
-    #         value=columns_to_display[0],  # Default selected column
-    #         id='crossfilter-xaxis-column',
-    #     ),
-    #     dcc.RadioItems(
-    #         options=[{'label': 'Linear', 'value': 'linear'}, {'label': 'Log', 'value': 'log'}],
-    #         value='linear',  # Default selection
-    #         id='crossfilter-xaxis-type',
-    #         labelStyle={'display': 'inline-block', 'marginTop': '5px'}
-    #     )
-    # ],
-    # style={'width': '49%', 'display': 'inline-block'}),
-
-    html.Div([
-        dcc.Dropdown(
-            options=[{'label': column, 'value': column} for column in columns_to_display],
-            value=columns_to_display[1],  # Default selected column
-            id='crossfilter-yaxis-column',
-        ),
-        dcc.RadioItems(
-            ['Linear', 'Log'],
-            'Linear',
-            id='crossfilter-yaxis-type',
-            labelStyle={'display': 'inline-block', 'marginTop': '5px'}
-        )
-        ], style={'width': '49%', 'float': 'right', 'display': 'inline-block'})
-    ], style={
-        'padding': '10px 5px'
-    }),
-
-    html.Div([
-        dcc.Graph(
-            id='crossfilter-indicator-scatter',
-            hoverData={'points': [{'customdata': 'Sweden'}]}
-        )
-    ], style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
-    html.Div([
-        dcc.Graph(id='x-time-series'),
-        dcc.Graph(id='y-time-series'),
-    ], style={'display': 'inline-block', 'width': '49%'}),
-
-    html.Div(dcc.Slider(
-        df['Year'].min(),
-        df['Year'].max(),
-        step=None,
-        id='crossfilter-year--slider',
-        value=df['Year'].max(),
-        marks={str(year): str(year) for year in df['Year'].unique()}
-    ), style={'width': '49%', 'padding': '0px 20px 20px 20px'})
+    # Dropdown menu for selecting a country
+    dcc.Dropdown(
+        id='country-dropdown',
+        options=[{'label': country, 'value': country} for country in df['Location'].unique()],
+        value='Sweden',  # Default selected country
+        style={
+        'width': '90%',  # Set the width to 80%
+        'margin': 'auto',  # Center the dropdown horizontally
+        'color': 'blue',  # Set the text color to blue
+        '@media screen and (max-width: 600px)': {
+        'width': '90%',
+    }}), 
+    
+    # Dropdown menu for selecting a column
+    dcc.Dropdown(
+        id='column-dropdown',
+        options=[{'label': column, 'value': column} for column in columns_to_display],
+        value='Death from ambient particulate matter pollution',  # Default selected value
+        style={
+        'width': '90%',  # Set the width to 80%
+        'margin': 'auto',  # Center the dropdown horizontally
+        'color': 'blue',  # Set the text color to blue
+        '@media screen and (max-width: 600px)': {
+        'width': '90%',
+    }}),
+    
+    # Plot to show values of the selected column over the years
+    dcc.Graph(id='line-plot', 
+              style = {
+                'width': '100%',
+                'margin': 'auto',
+                'display': 'inline-block',
+                '@media screen and (max-width: 600px)': {
+                    'width': '100%',
+                    'margin':1}}),
+    
+    # Plot to show PM2.5 pollution for the selected country
+    dcc.Graph(id='pm25-plot', 
+              style = {
+                'width': '100%',
+                'margin': 'auto',
+                'display': 'inline-block',
+                '@media screen and (max-width: 600px)': {
+                    'width': '100%',
+                    'margin':1}})
 ])
 
-
+# callback to update the line plot
 @callback(
-    Output('crossfilter-indicator-scatter', 'figure'),
-    Input('crossfilter-yaxis-column', 'value'),
-    Input('crossfilter-yaxis-type', 'value'),
-    Input('crossfilter-year--slider', 'value'))
-def update_graph(xaxis_column_name, yaxis_column_name,
-                 xaxis_type, yaxis_type,
-                 year_value):
-    dff = df[df['Year'] == year_value]
+    Output('line-plot', 'figure'),
+    Input('country-dropdown', 'value'),
+    Input('column-dropdown', 'value')
+)
+def update_line_plot(selected_country, selected_column):
+    filtered_data = df[(df['Location'] == selected_country)]
+    # Define custom colors for  line
+    custom_color = ['red']
+    figure = px.line(filtered_data, x='Year', 
+                     y=selected_column, 
+                     title=f"{selected_country}<br>{selected_column}",
+                     color_discrete_sequence=custom_color)
+    figure.update_yaxes(title_text='per 100.000 people') # Standard value for all graphs
+    figure.update_layout(margin={'l': 40, 'b': 20, 't': 45, 'r': 2})
+    return figure
 
-    fig = px.scatter(
-        dff,
-        x='Year',
-        y=yaxis_column_name,
-        hover_name=dff['Location']
-    )
-
-    fig.update_traces(customdata=dff['Location'])
-
-    fig.update_yaxes(title=yaxis_column_name, type='linear' if yaxis_type == 'Linear' else 'log')
-
-    fig.update_layout(margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest')
-
-    return fig
-
-
-def create_time_series(dff, yaxis_column_name, axis_type, title):
-
-    fig = px.scatter(dff, x='Year', y=yaxis_column_name)
-
-    fig.update_traces(mode='lines+markers')
-    fig.update_xaxes(showgrid=False)
-    fig.update_yaxes(type='linear' if axis_type == 'Linear' else 'log')
-
-    fig.add_annotation(x=0, y=0.85, xanchor='left', yanchor='bottom',
-                       xref='paper', yref='paper', showarrow=False, align='left',
-                       text=title)
-
-    fig.update_layout(height=225, margin={'l': 20, 'b': 30, 'r': 10, 't': 10})
-
-    return fig
-
-
+# callback to update the PM2.5 pollution plot based on country
 @callback(
-    Output('x-time-series', 'figure'),
-    Input('crossfilter-indicator-scatter', 'hoverData'),
-    Input('crossfilter-xaxis-column', 'value'),
-    Input('crossfilter-xaxis-type', 'value'))
-def update_x_timeseries(hoverData, xaxis_column_name, axis_type):
-    country_name = hoverData['points'][0]['customdata']
-    dff = df[df['Location'] == country_name]
+    Output('pm25-plot', 'figure'),
+    Input('country-dropdown', 'value')
+)
+def update_pm25_plot(selected_country):
+    filtered_data = df[df['Location'] == selected_country]
 
-    if xaxis_column_name in dff.columns:
-        title = f"<b>{country_name}</b><br>{xaxis_column_name}"
-        return create_time_series(dff, xaxis_column_name, axis_type, title)
-    else:
-        # Handle the case where the selected column does not exist
-        return go.Figure()
+    # Create a new DataFrame for each line color based on PM values
+    red_data = filtered_data[filtered_data['PM 2.5 Airpollution'] > 35]
+    orange_data = filtered_data[(filtered_data['PM 2.5 Airpollution'] >= 12) & (filtered_data['PM 2.5 Airpollution'] <= 35)]
+    green_data = filtered_data[(filtered_data['PM 2.5 Airpollution'] < 12)]
 
-@callback(
-    Output('y-time-series', 'figure'),
-    Input('crossfilter-indicator-scatter', 'hoverData'),
-    Input('crossfilter-yaxis-type', 'value'))
-def update_y_timeseries(hoverData, axis_type):
-    country_name = hoverData['points'][0]['customdata']
-    dff = df[df['Location'] == country_name]
+    figure = go.Figure()
 
-    # Ensure that 'pollution' is always used as the y-axis column
-    yaxis_column_name = 'PM 2.5 Airpollution'
+    if not red_data.empty:
+        figure.add_trace(go.Scatter(x=red_data['Year'], y=red_data['PM 2.5 Airpollution'], name='Red', line=dict(color='red')))
+    if not orange_data.empty:
+        figure.add_trace(go.Scatter(x=orange_data['Year'], y=orange_data['PM 2.5 Airpollution'], name='Orange', line=dict(color='orange')))
+    if not green_data.empty:
+        figure.add_trace(go.Scatter(x=green_data['Year'], y=green_data['PM 2.5 Airpollution'], name='Green', line=dict(color='green')))
 
-    title = f"<b>{country_name}</b><br>{yaxis_column_name}"
-    return create_time_series(dff, yaxis_column_name, axis_type, title)
-
-
+    figure.update_layout(
+        title=f"{selected_country}<br>PM2.5 Air Pollution",
+        yaxis_title='PM 2.5 levels',
+        margin={'l': 40, 'b': 20, 't': 45, 'r': 2})
+    return figure
 
 if __name__ == '__main__':
     app.run(debug=True)
