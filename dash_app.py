@@ -8,12 +8,15 @@ from dash import Dash, html, dcc, callback, Output, Input
 import os
 
 def init_dash(server):
+    CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+    stylesheet= CURR_DIR_PATH + '\\static\\css\\styles.css'
     dash_app = dash.Dash(
         server=server,
-        routes_pathname_prefix='/dash/'
+        routes_pathname_prefix='/dash/',
+        external_stylesheets=[stylesheet]
     )
     # final data
-    CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+    # CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
     df = pd.read_csv(CURR_DIR_PATH+'.\\health_and_air_final_df.csv')
 
     columns_to_display = df.columns[3:-2].tolist()
@@ -87,8 +90,8 @@ def init_dash(server):
     
     return dash_app
 
+
+
 def add_header(response):
-
     response.headers['X-Frame-Options'] = 'SAMEORIGIN'
-
     return response
