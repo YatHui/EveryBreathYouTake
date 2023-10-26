@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Grayscale - Start Bootstrap Theme</title>
+        <title>Plots</title>
         <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets2/favicon.ico') }}" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -34,20 +34,35 @@
             </div>
         </nav>
         
-        
+
         <!-- Projects-->
         <section class="projects-section bg-light" id="projects">
-            <div class="container px-4 px-lg-5">
-                <!-- Featured Project Row-->
-                <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
-                    <div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src="{{ url_for('static', filename='assets2/img/bg-masthead.jpg') }}" alt="..." /></div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <h4>Shoreline</h4>
-                            <p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any project - even commercial projects! Download it, customize it, and publish your website!</p>
-                        </div>
+                    <!-- Text container-->
+                    <div class="container px-4 px-lg-5">
+                        <!-- Text-->
+                        <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
+                    <div class="featured-text text-center text-lg-left">
+                        <h4>Our plots</h4>
+                        <p class="text-black-50 mb-0">Here we have a plot we have made. THe data is from www.who.com and we hope you enjoy it</p>
                     </div>
                 </div>
+            </div>
+            <div class="container px-4 px-lg-5">
+                <!-- Project Iframe Row-->
+                <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
+                    <div class="col-lg-6">
+                        <!-- Insert your iframe here -->
+                        <iframe id="myIframe" src="/dash/" width="100%" height="660px" style="border:none;"></iframe>
+
+                    </div>
+                </div>
+            </div>
+
+        
+
+        
+
+
                 <!-- Project One Row-->
                 <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
                     <div class="col-lg-6"><img class="img-fluid" src="{{ url_for('static', filename='assets2/img/demo-image-01.jpg') }}" alt="..." /></div>
@@ -175,5 +190,14 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <!-- Add your script at the bottom, before the closing </body> tag -->
+        <script type="text/javascript">
+            window.addEventListener("message", function(event) {
+                var iframe = document.getElementById('myIframe');
+                if (iframe) {
+                    iframe.style.height = event.data + 'px';
+                }
+            }, false);
+        </script>
     </body>
 </html>
