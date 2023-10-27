@@ -4,6 +4,23 @@ import plotly.express as px
 import pandas as pd
 from dash import Dash, html, dcc, callback, Output, Input
 import os
+import psycopg2
+from secret_info import master_username,master_password,database_name,port as p,url
+
+def fetch_data_from_rds(endpoint, database, user, password,port,query):
+    """Connect to PostgreSQL database and fetch data."""
+    conn = psycopg2.connect(
+        host=endpoint,
+        database=database,
+        user=user,
+        password=password,
+        port = port
+    )    
+    # Using pandas to run SQL and load result into DataFrame
+    df = pd.read_sql(query, conn)
+    # Close the connection
+    conn.close()
+    return df
 
 def add_header(response):
     response.headers['X-Frame-Options'] = 'SAMEORIGIN'
@@ -122,6 +139,16 @@ def init_dash(server):
 
 # - - - - - - - - - - - - - - SECOND PLOT - - - - - - - - - - - - - -  
 def second_plot(server):
+    # Your SQL query
+    # endpoint = url
+    # database = database_name
+    # user = master_username
+    # password = master_password
+    # port = p
+    # query = "SELECT * FROM test LIMIT 5;"
+
+    # df = fetch_data_from_rds(endpoint, database, user, password,port,query)
+
     df_mean = pd.read_csv("data_sets/air_quality/pm25_mean.csv")  
     df_min = pd.read_csv("data_sets/air_quality/pm25_min.csv")  
     df_max = pd.read_csv("data_sets/air_quality/pm25_max.csv")
