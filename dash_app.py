@@ -4,6 +4,28 @@ import plotly.express as px
 import pandas as pd
 from dash import Dash, html, dcc, callback, Output, Input
 import os
+import psycopg2
+from secret_info import master_username,master_password,database_name,port as p,url
+endpoint = url
+database = database_name
+user = master_username
+password = master_password
+port = p
+
+def fetch_data_from_rds(endpoint, database, user, password,port,query):
+    """Connect to PostgreSQL database and fetch data."""
+    conn = psycopg2.connect(
+        host=endpoint,
+        database=database,
+        user=user,
+        password=password,
+        port = port
+    )    
+    # Using pandas to run SQL and load result into DataFrame
+    df = pd.read_sql(query, conn)
+    # Close the connection
+    conn.close()
+    return df
 
 def add_header(response):
     response.headers['X-Frame-Options'] = 'SAMEORIGIN'
@@ -11,17 +33,24 @@ def add_header(response):
 
 # - - - - - - - - - - - - - - FIRST PLOT - - - - - - - - - - - - - -  
 def init_dash(server):
+    query = "SELECT * FROM health_and_air_2010_2019;"
+
+    df = fetch_data_from_rds(endpoint, database, user, password,port,query)
+    for column in df.columns:
+        if column not in ['Location', 'Code', 'Year', 'Value']:
+            df[column] = df[column].astype(float).round(2)
+    
     CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
     stylesheet= CURR_DIR_PATH + '\\static\\css\\styles.css'
     dash_app = dash.Dash(
         server=server,
-        routes_pathname_prefix='/dash/',
-        external_stylesheets=[stylesheet]
+        routes_pathname_prefix='/dash/'        
     )
     # final data
-    df = pd.read_csv(CURR_DIR_PATH+'.\\health_and_air_final_df.csv')
+    # CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+    #df = pd.read_csv(CURR_DIR_PATH+'.\\health_and_air_final_df.csv')
 
-    columns_to_display = df.columns[3:-2].tolist()
+    columns_to_display = ['Death from household air pollution from solid fuels', 'Death from ambient particulate matter pollution', 'Death from all causes attributed to air pollution', 'Death from ambient ozone pollution', 'DALYs attributed to air pollution', 'DALYs attributed to household air pollution', 'DALYs attributed ambient particulate matter pollution']
 
     dash_app.layout = html.Div([
         # Dropdown menu for selecting a country
@@ -59,7 +88,8 @@ def init_dash(server):
                     '@media screen and (max-width: 600px)': {
                         'width': '100%',
                         'margin':1}},
-                    config={'displayModeBar': False}),
+                    config={'displayModeBar': False}
+                        ),
         
         # Plot to show PM2.5 pollution for the selected country
         dcc.Graph(id='pm25-plot', 
@@ -70,7 +100,8 @@ def init_dash(server):
                     '@media screen and (max-width: 600px)': {
                         'width': '100%',
                         'margin':1}},
-                    config={'displayModeBar': False} )
+                    config={'displayModeBar': False}
+                        ),
     ])
 
     # callback to update the line plot
@@ -123,9 +154,17 @@ def init_dash(server):
 
 # - - - - - - - - - - - - - - SECOND PLOT - - - - - - - - - - - - - -  
 def second_plot(server):
-    df_mean = pd.read_csv("data_sets/air_quality/pm25_mean.csv")  
-    df_min = pd.read_csv("data_sets/air_quality/pm25_min.csv")  
-    df_max = pd.read_csv("data_sets/air_quality/pm25_max.csv")
+    
+    query_mean = "SELECT * FROM pm25_mean;"
+    df_mean = fetch_data_from_rds(endpoint, database, user, password,port,query_mean)
+    query_max = "SELECT * FROM pm25_max;"
+    df_max = fetch_data_from_rds(endpoint, database, user, password,port,query_max)
+    query_min = "SELECT * FROM pm25_min;"
+    df_min = fetch_data_from_rds(endpoint, database, user, password,port,query_min)
+
+    #df_mean = pd.read_csv("data_sets/air_quality/pm25_mean.csv")  
+    # df_min = pd.read_csv("data_sets/air_quality/pm25_min.csv")  
+    # df_max = pd.read_csv("data_sets/air_quality/pm25_max.csv")
 
 
     # Define columns to plot
@@ -157,7 +196,16 @@ def second_plot(server):
             )
         ]),
         html.Div([
-            dcc.Graph(id='pm-line-chart')
+            dcc.Graph(id='pm-line-chart',
+                style = {
+                    'width': '100%',
+                    'margin': 'auto',
+                    'display': 'inline-block',
+                    '@media screen and (max-width: 600px)': {
+                        'width': '100%',
+                        'margin':1}},
+                    config={'displayModeBar': False})
+
         ])
     ])
 
@@ -233,10 +281,16 @@ def second_plot(server):
 
 def third_plot(server):
 
-    # Import data
-    df_mean = pd.read_csv("data_sets/air_quality/pm25_mean.csv")  
-    df_min = pd.read_csv("data_sets/air_quality/pm25_min.csv")  
-    df_max = pd.read_csv("data_sets/air_quality/pm25_max.csv")  
+    query_mean = "SELECT * FROM pm25_mean;"
+    df_mean = fetch_data_from_rds(endpoint, database, user, password,port,query_mean)
+    query_max = "SELECT * FROM pm25_max;"
+    df_max = fetch_data_from_rds(endpoint, database, user, password,port,query_max)
+    query_min = "SELECT * FROM pm25_min;"
+    df_min = fetch_data_from_rds(endpoint, database, user, password,port,query_min)
+
+    #df_mean = pd.read_csv("data_sets/air_quality/pm25_mean.csv")  
+    # df_min = pd.read_csv("data_sets/air_quality/pm25_min.csv")  
+    # df_max = pd.read_csv("data_sets/air_quality/pm25_max.csv")
 
     # Define columns to plot
     years = df_mean.columns[2:12].tolist()
@@ -305,8 +359,18 @@ def third_plot(server):
     )
 
     app.layout = html.Div([
-        dcc.Graph(figure=fig)
-    ])
+        dcc.Graph(figure=fig,
+                style = {
+                    'width': '100%',
+                    'margin': 'auto',
+                    'display': 'inline-block',
+                    '@media screen and (max-width: 600px)': {
+                        'width': '100%',
+                        'margin':1}},
+                    config={'displayModeBar': False})
+
+                ])
+            
 
     return app
 
