@@ -58,7 +58,8 @@ def init_dash(server):
                     'display': 'inline-block',
                     '@media screen and (max-width: 600px)': {
                         'width': '100%',
-                        'margin':1}}),
+                        'margin':1}},
+                    config={'displayModeBar': False}),
         
         # Plot to show PM2.5 pollution for the selected country
         dcc.Graph(id='pm25-plot', 
@@ -68,7 +69,8 @@ def init_dash(server):
                     'display': 'inline-block',
                     '@media screen and (max-width: 600px)': {
                         'width': '100%',
-                        'margin':1}})
+                        'margin':1}},
+                    config={'displayModeBar': False} )
     ])
 
     # callback to update the line plot
