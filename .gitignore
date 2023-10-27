@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 migrations/
-=======
->>>>>>> origin/robert
 venv/
 __pycache__/
 test.ipynb
