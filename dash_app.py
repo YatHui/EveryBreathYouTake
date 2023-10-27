@@ -6,6 +6,11 @@ from dash import Dash, html, dcc, callback, Output, Input
 import os
 import psycopg2
 from secret_info import master_username,master_password,database_name,port as p,url
+endpoint = url
+database = database_name
+user = master_username
+password = master_password
+port = p
 
 def fetch_data_from_rds(endpoint, database, user, password,port,query):
     """Connect to PostgreSQL database and fetch data."""
@@ -28,18 +33,24 @@ def add_header(response):
 
 # - - - - - - - - - - - - - - FIRST PLOT - - - - - - - - - - - - - -  
 def init_dash(server):
+    query = "SELECT * FROM health_and_air_2010_2019;"
+
+    df = fetch_data_from_rds(endpoint, database, user, password,port,query)
+    for column in df.columns:
+        if column not in ['Location', 'Code', 'Year', 'Value']:
+            df[column] = df[column].astype(float).round(2)
+    
     CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
     stylesheet= CURR_DIR_PATH + '\\static\\css\\styles.css'
     dash_app = dash.Dash(
         server=server,
-        routes_pathname_prefix='/dash/',
-        external_stylesheets=[stylesheet]
+        routes_pathname_prefix='/dash/'        
     )
     # final data
     # CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
-    df = pd.read_csv(CURR_DIR_PATH+'.\\health_and_air_final_df.csv')
+    #df = pd.read_csv(CURR_DIR_PATH+'.\\health_and_air_final_df.csv')
 
-    columns_to_display = df.columns[3:-2].tolist()
+    columns_to_display = ['Death from household air pollution from solid fuels', 'Death from ambient particulate matter pollution', 'Death from all causes attributed to air pollution', 'Death from ambient ozone pollution', 'DALYs attributed to air pollution', 'DALYs attributed to household air pollution', 'DALYs attributed ambient particulate matter pollution']
 
     dash_app.layout = html.Div([
         # Dropdown menu for selecting a country
