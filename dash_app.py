@@ -87,7 +87,9 @@ def init_dash(server):
                     'display': 'inline-block',
                     '@media screen and (max-width: 600px)': {
                         'width': '100%',
-                        'margin':1}}),
+                        'margin':1}},
+                    config={'displayModeBar': False}
+                        ),
         
         # Plot to show PM2.5 pollution for the selected country
         dcc.Graph(id='pm25-plot', 
@@ -97,7 +99,9 @@ def init_dash(server):
                     'display': 'inline-block',
                     '@media screen and (max-width: 600px)': {
                         'width': '100%',
-                        'margin':1}})
+                        'margin':1}},
+                    config={'displayModeBar': False}
+                        ),
     ])
 
     # callback to update the line plot
@@ -150,19 +154,17 @@ def init_dash(server):
 
 # - - - - - - - - - - - - - - SECOND PLOT - - - - - - - - - - - - - -  
 def second_plot(server):
-    # Your SQL query
-    # endpoint = url
-    # database = database_name
-    # user = master_username
-    # password = master_password
-    # port = p
-    # query = "SELECT * FROM test LIMIT 5;"
+    
+    query_mean = "SELECT * FROM pm25_mean;"
+    df_mean = fetch_data_from_rds(endpoint, database, user, password,port,query_mean)
+    query_max = "SELECT * FROM pm25_max;"
+    df_max = fetch_data_from_rds(endpoint, database, user, password,port,query_max)
+    query_min = "SELECT * FROM pm25_min;"
+    df_min = fetch_data_from_rds(endpoint, database, user, password,port,query_min)
 
-    # df = fetch_data_from_rds(endpoint, database, user, password,port,query)
-
-    df_mean = pd.read_csv("data_sets/air_quality/pm25_mean.csv")  
-    df_min = pd.read_csv("data_sets/air_quality/pm25_min.csv")  
-    df_max = pd.read_csv("data_sets/air_quality/pm25_max.csv")
+    #df_mean = pd.read_csv("data_sets/air_quality/pm25_mean.csv")  
+    # df_min = pd.read_csv("data_sets/air_quality/pm25_min.csv")  
+    # df_max = pd.read_csv("data_sets/air_quality/pm25_max.csv")
 
 
     # Define columns to plot
@@ -194,7 +196,16 @@ def second_plot(server):
             )
         ]),
         html.Div([
-            dcc.Graph(id='pm-line-chart')
+            dcc.Graph(id='pm-line-chart',
+                style = {
+                    'width': '100%',
+                    'margin': 'auto',
+                    'display': 'inline-block',
+                    '@media screen and (max-width: 600px)': {
+                        'width': '100%',
+                        'margin':1}},
+                    config={'displayModeBar': False})
+
         ])
     ])
 
@@ -270,10 +281,16 @@ def second_plot(server):
 
 def third_plot(server):
 
-    # Import data
-    df_mean = pd.read_csv("data_sets/air_quality/pm25_mean.csv")  
-    df_min = pd.read_csv("data_sets/air_quality/pm25_min.csv")  
-    df_max = pd.read_csv("data_sets/air_quality/pm25_max.csv")  
+    query_mean = "SELECT * FROM pm25_mean;"
+    df_mean = fetch_data_from_rds(endpoint, database, user, password,port,query_mean)
+    query_max = "SELECT * FROM pm25_max;"
+    df_max = fetch_data_from_rds(endpoint, database, user, password,port,query_max)
+    query_min = "SELECT * FROM pm25_min;"
+    df_min = fetch_data_from_rds(endpoint, database, user, password,port,query_min)
+
+    #df_mean = pd.read_csv("data_sets/air_quality/pm25_mean.csv")  
+    # df_min = pd.read_csv("data_sets/air_quality/pm25_min.csv")  
+    # df_max = pd.read_csv("data_sets/air_quality/pm25_max.csv")
 
     # Define columns to plot
     years = df_mean.columns[2:12].tolist()
@@ -342,8 +359,18 @@ def third_plot(server):
     )
 
     app.layout = html.Div([
-        dcc.Graph(figure=fig)
-    ])
+        dcc.Graph(figure=fig,
+                style = {
+                    'width': '100%',
+                    'margin': 'auto',
+                    'display': 'inline-block',
+                    '@media screen and (max-width: 600px)': {
+                        'width': '100%',
+                        'margin':1}},
+                    config={'displayModeBar': False})
+
+                ])
+            
 
     return app
 
