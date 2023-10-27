@@ -19,7 +19,6 @@ def init_dash(server):
         external_stylesheets=[stylesheet]
     )
     # final data
-    # CURR_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
     df = pd.read_csv(CURR_DIR_PATH+'.\\health_and_air_final_df.csv')
 
     columns_to_display = df.columns[3:-2].tolist()
@@ -31,7 +30,7 @@ def init_dash(server):
             options=[{'label': country, 'value': country} for country in df['Location'].unique()],
             value='Sweden',  # Default selected country
             style={
-            'width': '90%',  # Set the width to 80%
+            'width': '90%',  # Set the width to 90%
             'margin': 'auto',  # Center the dropdown horizontally
             'color': 'blue',  # Set the text color to blue
             '@media screen and (max-width: 600px)': {
