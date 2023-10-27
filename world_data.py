@@ -9,9 +9,9 @@ stylesheet= CURR_DIR_PATH + '\\static\\css\\styles.css'
 app = Dash(__name__, external_stylesheets=[stylesheet])
 
 # final data
-df = pd.read_csv(CURR_DIR_PATH+'.\\health_and_air_final_df.csv')
-columns_to_display = df.columns[3:-2].tolist()
-
+df = pd.read_csv(CURR_DIR_PATH+'.\\new_health_and_air_final_df.csv')
+columns_to_display = ['Death from household air pollution from solid fuels', 'Death from ambient particulate matter pollution', 'Death from all causes attributed to air pollution', 'Death from ambient ozone pollution', 'DALYs attributed to air pollution', 'DALYs attributed to household air pollution', 'DALYs attributed ambient particulate matter pollution']
+# columns_to_display = df.columns[3:-2].tolist()
 
 # Define the layout of the app
 app.layout = html.Div([

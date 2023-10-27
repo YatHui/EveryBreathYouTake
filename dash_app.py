@@ -70,7 +70,7 @@ def init_dash(server):
                     '@media screen and (max-width: 600px)': {
                         'width': '100%',
                         'margin':1}},
-                    config={'displayModeBar': False} )
+                    config={'displayModeBar': False})
     ])
 
     # callback to update the line plot
