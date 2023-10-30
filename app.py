@@ -31,6 +31,10 @@ def welcomePage():
 def plotsPage():
     return render_template('plots.html')
 
+@app.route("/predictions")
+def plotsPage():
+    return render_template('predictions.html')
+
 @app.route("/workflow")
 def workflowPage():
     return render_template('workflow.html')
