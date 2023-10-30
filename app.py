@@ -32,7 +32,7 @@ def plotsPage():
     return render_template('plots.html')
 
 @app.route("/predictions")
-def plotsPage():
+def predictionsPage():
     return render_template('predictions.html')
 
 @app.route("/workflow")
