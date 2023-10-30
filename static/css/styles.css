@@ -11405,3 +11405,11 @@ video.bg-video {
       float: none; /* Clear the float to stack columns vertically */
   }
 }
+
+.icon-title {
+  display: none; /* Initially hide the titles */
+}
+
+.btn:hover .icon-title {
+  display: inline-block; /* Show the titles when the anchor (button) is hovered */
+}
