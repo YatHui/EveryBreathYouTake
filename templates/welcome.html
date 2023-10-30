@@ -26,9 +26,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#about">About us</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#signup">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('plotsPage') }}">Health and Air Pollution</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('predictionsPage') }}">Air Quality and Goals</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('workflowPage') }}">Worlflow</a></li>
                     </ul>
                 </div>
             </div>
@@ -38,7 +38,7 @@
             <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
-                        <h1 class="mx-auto my-0 text-uppercase">Sustainability</h1>
+                        <h1 class="mx-auto my-0 text-uppercase">Every breath you take matters</h1>
                         <h2 class="text-white-50 mx-auto mt-2 mb-5">From insights to action</h2>
                         <a class="btn btn-primary" href="#about">Get Started</a>
                     </div>
@@ -48,20 +48,6 @@
         <!-- About-->
         <section class="about-section text-center" id="about">
             <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-8">
-                        <h2 class="text-white mb-4">Insights to help you stay ahead of change</h2>
-                        <p class="text-white-50">
-                            
-                            
-                            The goal in 2030 is to address various global challenges, including poverty, inequality, climate change, environmental degradation, peace, and justice. They serve as a blueprint for a better and more sustainable future for all, aiming to create a world that is more inclusive, equitable, and environmentally friendly
-                           
-                            <h4 class="text-white mb-5">Click here to go to WHO Website!</h4>
-                    
-                            <a href="https://fn.se/globala-malen-for-hallbar-utveckling/">Global Goals for Sustainability</a>
-                        </p>
-                    </div>
-                </div>
                 <img class="img-fluid" src="{{ url_for('static', filename='assets2/img/city_world.png') }}" alt="..." />
             </div>
             <section class="projects-section bg-light" id="projects">
@@ -107,6 +93,20 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-8">
+                        <h2 class="text-white mb-4">Insights to help you stay ahead of change</h2>
+                        <p class="text-white-50">
+                            
+                            
+                            The goal in 2030 is to address various global challenges, including poverty, inequality, climate change, environmental degradation, peace, and justice. They serve as a blueprint for a better and more sustainable future for all, aiming to create a world that is more inclusive, equitable, and environmentally friendly
+                           
+                            <h4 class="text-white mb-5">Click here to go to WHO Website!</h4>
+                    
+                            <a href="https://fn.se/globala-malen-for-hallbar-utveckling/">Global Goals for Sustainability</a>
+                        </p>
                     </div>
                 </div>
             </div>
