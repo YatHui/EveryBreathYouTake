@@ -11061,7 +11061,29 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.15rem;
   border: 0;
+  color: white ; /* Add this line */
+  
 }
+
+.btn-grayscale {
+  background-color: #6b6b6b !important; /* A mid-gray background */
+  color: #ffffff !important; /* White text for visibility */
+  opacity: 1 !important; /* Make sure the button is fully opaque */
+  box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1) !important;
+  padding: 1.25rem 2rem;
+  font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 80%;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  border: 0;
+}
+
+.btn-grayscale:hover {
+  background-color: #505050 !important; /* A slightly darker gray for hover effect */
+  color: #ffffff !important; /* Keep the text color the same */
+}
+
+
 
 .masthead {
   position: relative;
