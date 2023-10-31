@@ -152,7 +152,7 @@ def init_dash(server):
     
     return dash_app
 
-# - - - - - - - - - - - - - - SECOND PLOT - - - - - - - - - - - - - -  
+# - - - - - - - - - - - - - - Country - - - - - - - - - - - - - -  
 def second_plot(server):
     
     query_mean = "SELECT * FROM pm25_mean;"
@@ -168,44 +168,35 @@ def second_plot(server):
 
 
     # Define columns to plot
-    years = df_mean.columns[2:12].tolist()
-    countries = df_mean.iloc[1:192, 0].tolist()
-    continents = df_mean.iloc[1:192, 1].tolist()
+    years = df_mean.columns[2:].tolist()
+    countries = df_mean.iloc[:, 0].tolist()
+    continents = df_mean.iloc[:, 1].tolist()
 
-    pm_mean = df_mean.iloc[1:192, 2:12].values.tolist()
-    pm_min = df_min.iloc[1:192, 2:12].values.tolist()
-    pm_max = df_max.iloc[1:192, 2:12].values.tolist()
+    pm_mean = df_mean.iloc[0:, 2:12].values.tolist()
+    pm_min = df_min.iloc[0:, 2:12].values.tolist()
+    pm_max = df_max.iloc[0:, 2:12].values.tolist()
+
 
     # Define a colour map for the continents
-
     continent_colour_map = {
         'Africa': 'brown','America': 'green','Asia': 'red', 'Europe': 'orange','Oceania': 'blue'}
 
 
     # Initialise Dash
     app = dash.Dash(
-        server=server,
-        routes_pathname_prefix='/dash2/')
+    server=server,
+    routes_pathname_prefix='/dash2/')
 
     app.layout = html.Div([
         html.Div([
             dcc.Dropdown(
                 id='country-dropdown',
                 options=[{'label': country, 'value': country} for country in countries],
-                value=countries[167]
+                value=countries[168]
             )
         ]),
         html.Div([
-            dcc.Graph(id='pm-line-chart',
-                style = {
-                    'width': '100%',
-                    'margin': 'auto',
-                    'display': 'inline-block',
-                    '@media screen and (max-width: 600px)': {
-                        'width': '100%',
-                        'margin':1}},
-                    config={'displayModeBar': False})
-
+            dcc.Graph(id='pm-line-chart',config={'displayModeBar': False})
         ])
     ])
 
@@ -239,23 +230,6 @@ def second_plot(server):
         fig.add_trace(go.Scatter(x=years, y=selected_pm_min, 
                                 mode='lines', line=dict(dash='solid', width=0.5), 
                                 name='Min'))
-        
-        
-    # Add traces for WHO Air Quality Guidelines
-
-        fig.add_trace(go.Scatter(x=('2015', '2018'), y=(10, 10), 
-                            mode='lines', 
-                            line=dict(color='black', dash='dashdot', width=1), 
-                            name='2005 Guidelines'))
-        fig.add_trace(go.Scatter(x=('2018', '2021'), y=(5.5, 5.5), 
-                            mode='lines', 
-                            line=dict(color='green', dash='dashdot', width=1), 
-                            name='2018 Guidelines'))
-        fig.add_trace(go.Scatter(x=('2021', '2023'), y=(5, 5), 
-                            mode='lines', 
-                            line=dict(color='blue', dash='dashdot', width=1), 
-                            name='2021 Guidelines'))
-
 
         
     # Set the continent colour
@@ -264,7 +238,7 @@ def second_plot(server):
         # Set layout
 
         fig.update_layout(
-            title=f'Fine air particles smaller than 2.5 mircometers: {selected_country}',
+            title=f'Fine air particulates 2010-2019: {selected_country}',
             xaxis_title='Year',
             yaxis_title='PM2.5 (µg/m³)',
             yaxis_range=[0,115],
@@ -277,7 +251,7 @@ def second_plot(server):
 
     return app
 
-# - - - - - - - - - - - - - - THIRD PLOT - - - - - - - - - - - - - -  
+# - - - - - - - - - - - - - - PM WORLD - - - - - - - - - - - - - -  
 
 def third_plot(server):
 
@@ -294,61 +268,51 @@ def third_plot(server):
 
     # Define columns to plot
     years = df_mean.columns[2:12].tolist()
-    countries = df_mean.iloc[1:192, 0].tolist()
-    continents = df_mean.iloc[1:192, 1].tolist()
+    countries = df_mean.iloc[:, 0].tolist()
+    continents = df_mean.iloc[:, 1].tolist()
 
-    pm_mean = df_mean.iloc[1:192, 2:12].values.tolist()
-    pm_min = df_min.iloc[1:192, 2:12].values.tolist()
-    pm_max = df_max.iloc[1:192, 2:12].values.tolist()
+    pm_mean = df_mean.iloc[:, 2:12].values.tolist()
 
+    # Setting the colour map
     continent_colour_map = {
         'Africa': 'brown','America': 'green','Asia': 'red', 'Europe': 'orange','Oceania': 'blue'}
 
-    app = dash.Dash(
-        server=server,
-        routes_pathname_prefix='/dash3/')
+    # Creating the Dash plot/app
 
+    app = dash.Dash(
+    server=server,
+    routes_pathname_prefix='/dash3/')
 
     fig = go.Figure()
 
-    legend_items = []
-
     for country_index, country in enumerate(countries):
         selected_pm_mean = pm_mean[country_index]
-        selected_pm_min = pm_min[country_index]
-        selected_pm_max = pm_max[country_index]
         selected_continent = continents[country_index]
 
-        # Add traces for Mean, Min, Max
-        
-        # fig.add_trace(go.Scatter(x=years, y=selected_pm_max, 
-        #                         mode='lines', line=dict(dash='solid', width=2), 
-        #                         name=f'{country} Max')),
         fig.add_trace(go.Scatter(x=years, y=selected_pm_mean, 
                                 mode='lines', line=dict(dash='solid', width=1, color=continent_colour_map[selected_continent]), 
                                 name=f'{selected_continent} Mean'))
-        # fig.add_trace(go.Scatter(x=years, y=selected_pm_min, 
-        #                         mode='lines', line=dict(dash='solid', width=0.5), 
-        #                         name=f'{country} Min', 
-        #                         line=dict(color=continent_colour_map[selected_continent])))
 
-    # Store legend item for this continent
-        legend_items.append(dict(
-        label=selected_continent,
-        method='restyle',
-        args=['visible', [
-            True if trace.name.startswith(selected_continent) 
-            else False for trace in fig.data]]))
+    # Create buttons for custom legend
+    legend_items = [
+        dict(label=continent, method='restyle', 
+            args=['visible', [True if trace.name.startswith(continent) else False for trace in fig.data]])
+        for continent in continent_colour_map.keys()
+    ]
 
-    # Set the continent colour
-        #fig.update_traces(line=dict(color=continent_colour_map[selected_continent]))
+    # Add button to show all continents together
+    legend_items.append(
+        dict(label='Show All', method='restyle', 
+            args=['visible', [True] * len(fig.data)])
+    )
 
     # Set layout
     fig.update_layout(
-        title=f'Fine air particles smaller than 2.5 micrometers (mean values world-wide)',
+        title=f'Fine air particulates worldwide 2010-2019',
         xaxis_title='Year',
         yaxis_title='PM2.5 (µg/m³)',
         yaxis_range=[0, 115],
+        showlegend=False,  # Remove the right-hand legend
         updatemenus=[
             dict(
                 type='buttons',
@@ -358,21 +322,159 @@ def third_plot(server):
         ]
     )
 
-    app.layout = html.Div([
-        dcc.Graph(figure=fig,
-                style = {
-                    'width': '100%',
-                    'margin': 'auto',
-                    'display': 'inline-block',
-                    '@media screen and (max-width: 600px)': {
-                        'width': '100%',
-                        'margin':1}},
-                    config={'displayModeBar': False})
+    # Adjust legend position
+    fig.update_layout(legend=dict(x=1, y=0.5))
 
-                ])
+    app.layout = html.Div([
+        dcc.Graph(figure=fig,config={'displayModeBar': False})
+    ])
+
+
             
 
     return app
+
+
+# - - - - - - - - - - - - - - Precidtions/Goals - - - - - - - - - - - - - -  
+def fourth_plot(server):
+
+    query_mean = "SELECT * FROM pm25_mean;"
+    df_mean = fetch_data_from_rds(endpoint, database, user, password,port,query_mean)
+    query_max = "SELECT * FROM pm25_max;"
+    df_max = fetch_data_from_rds(endpoint, database, user, password,port,query_max)
+    query_min = "SELECT * FROM pm25_min;"
+    df_min = fetch_data_from_rds(endpoint, database, user, password,port,query_min)
+
+    df_predict = pd.read_csv("data_sets/air_quality/predictions_pm25.csv")  
+
+
+    # Define columns to plot
+    years = df_predict.columns[2:].tolist()
+    countries = df_mean.iloc[:, 0].tolist()
+    continents = df_mean.iloc[:, 1].tolist()
+
+    pm_mean = df_mean.iloc[0:, 2:12].values.tolist()
+    pm_min = df_min.iloc[0:, 2:12].values.tolist()
+    pm_max = df_max.iloc[0:, 2:12].values.tolist()
+
+    pm_predict = df_predict.iloc[:, 11: ].values.tolist()
+
+    # Define a colour map for the continents
+
+    continent_colour_map = {
+        'Africa': 'brown','America': 'green','Asia': 'red', 'Europe': 'orange','Oceania': 'blue'}
+
+
+    # Initialise Dash
+    app = dash.Dash(
+    server=server,
+    routes_pathname_prefix='/dash4/')
+
+    app.layout = html.Div([
+        html.Div([
+            dcc.Dropdown(
+                id='country-dropdown',
+                options=[{'label': country, 'value': country} for country in countries],
+                value=countries[168]
+            )
+        ]),
+        html.Div([
+            dcc.Graph(id='pm-line-chart',config={'displayModeBar': False})
+        ])
+    ])
+
+    @app.callback(
+        Output('pm-line-chart', 'figure'),
+        [Input('country-dropdown', 'value')]
+    )
+
+    # Define mean, min and max PM2.5 values to plot
+
+    def update_line_chart(selected_country):
+
+        country_index = countries.index(selected_country)
+        selected_pm_mean = pm_mean[country_index]
+        selected_pm_min = pm_min[country_index]
+        selected_pm_max = pm_max[country_index]
+
+        selected_pm_predict = pm_predict[country_index]
+
+        selected_continent = continents[country_index]
+
+        fig = go.Figure()
+        
+
+    # Add traces for Mean, Min, Max
+
+        fig.add_trace(go.Scatter(x=years, y=selected_pm_max, 
+                                mode='lines', line=dict(dash='solid', width=2), 
+                                name='Max'))
+        fig.add_trace(go.Scatter(x=years, y=selected_pm_mean, 
+                                mode='lines', line=dict(dash='solid', width=1), 
+                                name='Mean'))
+        fig.add_trace(go.Scatter(x=years, y=selected_pm_min, 
+                                mode='lines', line=dict(dash='solid', width=0.5), 
+                                name='Min'))
+
+    # Add traces for predictions 2020-2023
+        fig.add_trace(go.Scatter(x=df_predict.columns[11:16], y=selected_pm_predict, 
+                                mode='lines', line=dict(dash='dot', width=1), 
+                                name='Predictions'))
+        
+        
+    # Add traces for WHO Air Quality Guidelines
+
+        fig.add_trace(go.Scatter(x=('2010', '2018'), y=(10, 10), 
+                            mode='lines', 
+                            line=dict(color='black', dash='dashdot', width=1), 
+                            name='2005 Guidelines'))
+        fig.add_trace(go.Scatter(x=('2018', '2021'), y=(5.5, 5.5), 
+                            mode='lines', 
+                            line=dict(color='green', dash='dashdot', width=1), 
+                            name='2018 Guidelines'))
+        fig.add_trace(go.Scatter(x=('2021', '2023'), y=(5, 5), 
+                            mode='lines', 
+                            line=dict(color='blue', dash='dashdot', width=1), 
+                            name='2021 Guidelines'))
+
+        
+    # Set the continent colour
+        fig.update_traces(line=dict(color=continent_colour_map[selected_continent]))
+
+        # Set layout
+
+        fig.update_layout(
+            title=f'Fine air particulates - Predictions and Goals: {selected_country}',
+            xaxis_title='Year',
+            yaxis_title='PM2.5 (µg/m³)',
+            yaxis_range=[0,115],
+            legend=dict(title='Parameter')
+            )
+
+        return fig
+
+
+            
+
+    return app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
