@@ -355,8 +355,9 @@ def fourth_plot(server):
     df_max = fetch_data_from_rds(endpoint, database, user, password,port,query_max)
     query_min = "SELECT * FROM pm25_min;"
     df_min = fetch_data_from_rds(endpoint, database, user, password,port,query_min)
-
-    df_predict = pd.read_csv("data_sets/air_quality/predictions_pm25.csv")  
+    query_predict = "SELECT * FROM predictions_pm25;"
+    df_predict = fetch_data_from_rds(endpoint, database, user, password,port,query_predict)
+    #df_predict = pd.read_csv("data_sets/air_quality/predictions_pm25.csv")   
 
 
     # Define columns to plot
