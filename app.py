@@ -40,6 +40,10 @@ def predictionsPage():
 def workflowPage():
     return render_template('workflow.html')
 
+@app.route("/tech")
+def techPage():
+    return render_template('tech.html')
+
 if __name__ == "__main__":
     with app.app_context():
         upgrade()
