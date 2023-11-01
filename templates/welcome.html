@@ -16,10 +16,33 @@
         <link href="{{ url_for('static', filename='css2/styles.css') }}" rel="stylesheet" />
         <!-- Air Quality API-->
         <script  type="text/javascript"  charset="utf-8">  
-            (function(w,d,t,f){  w[f]=w[f]||function(c,k,n){s=w[f],k=s['k']=(s['k']||(k?('&k='+k):''));s['c']=  
-            c=(c  instanceof  Array)?c:[c];s['n']=n=n||0;L=d.createElement(t),e=d.getElementsByTagName(t)[0];  
-            L.async=1;L.src='//feed.aqicn.org/feed/'+(c[n].city)+'/'+(c[n].lang||'')+'/feed.v1.js?n='+n+k;  
-            e.parentNode.insertBefore(L,e);  };  })(  window,document,'script','_aqiFeed'  );    
+            (function(w, d, t, f) {
+                w[f] = w[f] || function(c, k, n) {
+                    s = w[f], k = s['k'] = (s['k'] || (k ? ('&k=' + k) : ''));
+                    s['c'] =
+                    c = (c instanceof Array) ? c : [c];
+                    s['n'] = n = n || 0;
+                    L = d.createElement(t), e = d.getElementsByTagName(t)[0];
+                    L.async = 1;
+                    L.src = 'https://feed.aqicn.org/feed/' + (c[n].city) + '/' + (c[n].lang || '') + '/feed.v1.js?n=' + n + k;
+                    e.parentNode.insertBefore(L, e);
+                };
+                })(window, document, 'script', '_aqiFeed');
+
+                var cities = ["stockholm", "london", "beijing", "johannesburg", "houston", "bangkok"];
+
+                var aqiWidgetConfig = [];
+                cities.forEach(function(city) {
+                aqiWidgetConfig.push({
+                    city: city,
+                    callback: displayCity
+                });
+                });
+                _aqiFeed(aqiWidgetConfig);
+
+                function displayCity(aqi) {
+                document.getElementById("mutiple-city-aqi").innerHTML += (aqi.text("<center class='city'>%cityname<br>%aqi<br><small>%date</small></center>"));
+                };    
         </script>
     </head>
     <body id="page-top">
@@ -113,19 +136,7 @@
     
                         </p>
                         <!--Air quality widgets -->
-                        <p class="mb-0 text-black-50">The overall Air Quality index below is based on different types of air pollution</p>
-                        <span id="stockholm-aqi-container"></span>
-                        <script type="text/javascript" charset="utf-8">
-                            _aqiFeed({
-                                container: "stockholm-aqi-container",
-                                city: "stockholm",
-                                callback: function () {
-                                    // Load data for London after Stockholm data is loaded
-                                    _aqiFeed({ container: "london-aqi-container", city: "london" });
-                                },
-                            });
-                        </script>
-                        <span id="london-aqi-container"></span>
+                        <div class="air_container" id="mutiple-city-aqi"></div>
                     </div>
                 </div>
             </div>  

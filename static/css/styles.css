@@ -11404,6 +11404,14 @@ video.bg-video {
       width: 50%; /* Make the columns take 100% of the screen width (stacked) */
       float: none; /* Clear the float to stack columns vertically */
   }
+  .air_container {
+    flex-direction: column; /* Vertical layout for smaller screens */
+    justify-content: flex-start;
+  }
+
+  .city {
+    width: 100%; /* Full width on smaller screens */
+  }
 }
 
 .icon-title {
@@ -11419,13 +11427,18 @@ video.bg-video {
   background-color: #eee;
   position: absolute;
   border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .city {
+  width: calc(33.33% - 10px); 
   position: relative;
   display: block;
   float: left;
   border: 2px solid #555;
+  text-align: center;
   background-color: #fff;
   padding: 10px;
   margin: 10px;
