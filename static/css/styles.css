@@ -11413,3 +11413,26 @@ video.bg-video {
 .btn:hover .icon-title {
   display: inline-block; /* Show the titles when the anchor (button) is hovered */
 }
+
+/* For air pollution */
+.air_container {
+  background-color: #eee;
+  position: absolute;
+  border-radius: 10px;
+}
+
+.city {
+  position: relative;
+  display: block;
+  float: left;
+  border: 2px solid #555;
+  background-color: #fff;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.city>div>span {
+  padding: 0 15px!important;
+  font-size: 44px;
+}

@@ -14,6 +14,36 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{{ url_for('static', filename='css2/styles.css') }}" rel="stylesheet" />
+        <!-- Air Quality API-->
+        <script  type="text/javascript"  charset="utf-8">  
+            (function(w, d, t, f) {
+                w[f] = w[f] || function(c, k, n) {
+                    s = w[f], k = s['k'] = (s['k'] || (k ? ('&k=' + k) : ''));
+                    s['c'] =
+                    c = (c instanceof Array) ? c : [c];
+                    s['n'] = n = n || 0;
+                    L = d.createElement(t), e = d.getElementsByTagName(t)[0];
+                    L.async = 1;
+                    L.src = 'https://feed.aqicn.org/feed/' + (c[n].city) + '/' + (c[n].lang || '') + '/feed.v1.js?n=' + n + k;
+                    e.parentNode.insertBefore(L, e);
+                };
+                })(window, document, 'script', '_aqiFeed');
+
+                var cities = ["london", "newyork", "seoul", "guangzhou", "tokyo", "shanghai", "paris", "hongkong"];
+
+                var aqiWidgetConfig = [];
+                cities.forEach(function(city) {
+                aqiWidgetConfig.push({
+                    city: city,
+                    callback: displayCity
+                });
+                });
+                _aqiFeed(aqiWidgetConfig);
+
+                function displayCity(aqi) {
+                document.getElementById("mutiple-city-aqi").innerHTML += (aqi.text("<center class='city'>%cityname<br>%aqi<br><small>%date</small></center>"));
+                };    
+        </script>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -83,7 +113,8 @@
                 </div> 
             </div>
         </div>
-        
+        <!-- Air Quality -->
+        <div class="air_container" id="mutiple-city-aqi"></div>
         
                
         </section>
