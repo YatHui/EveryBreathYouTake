@@ -11404,14 +11404,7 @@ video.bg-video {
       width: 50%; /* Make the columns take 100% of the screen width (stacked) */
       float: none; /* Clear the float to stack columns vertically */
   }
-  .air_container {
-    flex-direction: column; /* Vertical layout for smaller screens */
-    justify-content: flex-start;
-  }
-
-  .city {
-    width: 100%; /* Full width on smaller screens */
-  }
+ 
 }
 
 .icon-title {
@@ -11448,4 +11441,15 @@ video.bg-video {
 .city>div>span {
   padding: 0 15px!important;
   font-size: 44px;
+}
+
+@media (max-width: 767px) {
+  .air_container {
+    flex-direction: column; /* Vertical layout for smaller screens */
+  }
+
+  .city {
+    width: 100%; /* Full width on smaller screens */
+    margin-right: 0;
+  }
 }
