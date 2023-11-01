@@ -118,22 +118,12 @@
     
                         </p>
                         <!--Air quality widget -->
-                        <div id="mutiple-city-aqi"></div> 
-                        <script type="text/javascript" charset="utf-8">
-                            document.addEventListener("DOMContentLoaded", function() {
-                                var cities = ["stockholm", "london", "beijing", "brunswick", "lagos", "brasilia"];
-                                
-                                var aqiWidgetConfig = [];
-                                cities.forEach(function(city) {
-                                    aqiWidgetConfig.push({ city: city, callback: displayCity });
-                                });
-                        
-                                _aqiFeed(aqiWidgetConfig);
-                        
-                                function displayCity(aqi) {
-                                    $("#mutiple-city-aqi").append(aqi.text("<center>%cityname<br>%aqi<br><small>%date</small></center>"));
-                                }
-                            });
+                        <span  id="city-aqi-container"></span>    
+                        <script  type="text/javascript"  charset="utf-8">  
+                            _aqiFeed({  container:"stockholm-aqi-container",  city:"stockholm"  });  
+                        </script>
+                        <script  type="text/javascript"  charset="utf-8">  
+                            _aqiFeed({  container:"london-aqi-container",  city:"london"  });  
                         </script>
                     </div>
                 </div>
