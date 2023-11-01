@@ -102,6 +102,8 @@ def init_dash(server):
                         'margin':1}},
                     config={'displayModeBar': False}
                         ),
+        # Add a CSV download link
+        html.A('Download CSV', id='csv-download-link', download="data.csv", href="", target="_blank", style={'display': 'block', 'margin-top': '20px'})
     ])
 
     # callback to update the line plot
@@ -149,6 +151,15 @@ def init_dash(server):
             yaxis_title='PM 2.5 levels',
             margin={'l': 40, 'b': 20, 't': 45, 'r': 2})
         return figure
+    @callback(
+    Output('csv-download-link', 'href'),
+    Input('country-dropdown', 'value'),
+    )
+    def update_csv_download_link(selected_country):
+        filtered_data = df[df['Location'] == selected_country]
+        csv_string = filtered_data.to_csv(index=False, encoding='utf-8')
+        csv_data = f"data:text/csv;charset=utf-8,{csv_string}"
+        return csv_data
     
     return dash_app
 
