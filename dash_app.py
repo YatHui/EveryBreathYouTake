@@ -31,7 +31,7 @@ def add_header(response):
     response.headers['X-Frame-Options'] = 'SAMEORIGIN'
     return response
 
-# - - - - - - - - - - - - - - FIRST PLOT - - - - - - - - - - - - - -  
+# - - - - - - - - - - - - - - Health and Air PLOT - - - - - - - - - - - - - -  
 def init_dash(server):
     query = "SELECT * FROM health_and_air_2010_2019;"
 
@@ -103,7 +103,7 @@ def init_dash(server):
                     config={'displayModeBar': False}
                         ),
         # Add a CSV download link
-        html.A('Download CSV', id='csv-download-link', download="data.csv", href="", target="_blank", style={'display': 'block', 'margin-top': '20px'})
+        html.A('Download as CSV', id='csv-download-link', download="data.csv", href="", target="_blank", style={'display': 'block', 'margin-top': '20px'})
     ])
 
     # callback to update the line plot
