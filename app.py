@@ -1,13 +1,16 @@
 from datetime import datetime
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect,jsonify
 from forms import CustomerEditForm, TransactionForm
 from models import League, db, User, NewsAnnouncements, ChatMessage
 from flask_migrate import Migrate, upgrade
 from dash_app import init_dash,add_header,second_plot,third_plot,fourth_plot
+from secret_info import api_key
+import openai
 
 #Set up Flask
 app = Flask(__name__)
 app.config.from_object('config.ConfigDebug')
+openai.api_key = api_key
 
 db.app = app
 db.init_app(app)
@@ -40,10 +43,50 @@ def predictionsPage():
 def workflowPage():
     return render_template('workflow.html')
 
+@app.route("/tech", methods=['GET', 'POST'])
+def techPage():
+    return render_template('tech.html')
+
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    user_message = request.json.get('message')
+    system_message = request.json.get('system', "Hello, I'm ready to chat about pollution and health effects.")
+    if not user_message:
+        return jsonify({'error': 'User message is required'}), 400
+
+    # Using OpenAI API to get a response
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a chat bot designed answer questions about air pollution and the health effects it can have. If you get questions regarding something else you briefly explain your purpose. Except for when people ask about toasters. You love toasters"
+            },
+            {
+                "role": "user",
+                "content": user_message
+            }
+        ],
+        temperature=1,
+        max_tokens=130,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0
+    )
+
+    gpt_response = response.choices[0].message.content.strip()
+    return jsonify({'response': gpt_response})
+
+
 if __name__ == "__main__":
     with app.app_context():
         upgrade()
     app.run()
+
+
+
+
 
 
 
