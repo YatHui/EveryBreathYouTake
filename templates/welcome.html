@@ -61,46 +61,44 @@
                 <div class="container px-4 px-lg-5">
                     <!-- Featured Project Row-->
                     <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
-                        <div class="col-lg-6">
-                            <img class="img-fluid" src="{{ url_for('static', filename='assets2/img/bg-mobile-fallback.jpg') }}" alt="..." />
-                        </div>
-                        <div class="col-lg-6">
+                        <div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src="{{ url_for('static', filename='assets2/img/frederic-paulussen-factory.jpg') }}" alt="..." /></div>
+                        <!--<img class="img-fluid" src="{{ url_for('static', filename='assets2/img/bg-mobile-fallback.jpg') }}" alt="..." /> -->
+                        <div class="col-xl-4 col-lg-5">
                             <div class="featured-text text-center text-lg-left">
                                 <h2>How air pollution affects our health</h2>
                                 <p class="text-black-50 mb-0">The health effects of air pollution are serious – one third of deaths from stroke, lung cancer and heart disease are due to air pollution.
-                                    Air pollution is hard to escape, no matter how rich an area you live in. It is all around us. Microscopic pollutants in the air can slip past our body’s defences, penetrating deep into our respiratory and circulatory system, damaging our lungs, heart and brain.
-                                </p>
+                                    Air pollution is hard to escape, no matter how rich an area you live in. It is all around us. Microscopic pollutants in the air can slip past our body’s defences, penetrating deep into our respiratory and circulatory system, damaging our lungs, heart and brain.</p>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Project One Row-->
-                <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
-                    <div class="col-lg-6"><img class="img-fluid" src="{{ url_for('static', filename='assets2/img/air_pollution.jpg') }}" alt="..." /></div>
-                    <div class="col-lg-6">
-                        <div class="bg-black text-center h-100 project">
-                            <div class="d-flex h-100">
-                                <div class="project-text w-100 my-auto text-center text-lg-left">
-                                    <h4 class="text-white">Air-pollution</h4>
-                                    <p class="mb-0 text-white-50">Air pollution is the contamination of air due to the presence of substances in the atmosphere that are harmful to the health of humans and other living beings, or cause damage to the climate or to materials</p>
+                    <!-- Project One Row-->
+                    <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
+                        <div class="col-lg-6"><img class="img-fluid" src="{{ url_for('static', filename='assets2/img/air_pollution.jpg') }}" alt="..." /></div>
+                        <div class="col-lg-6">
+                            <div class="bg-black text-center h-100 project">
+                                <div class="d-flex h-100">
+                                    <div class="project-text w-100 my-auto text-center text-lg-left">
+                                        <h4 class="text-white">Air-pollution</h4>
+                                        <p class="mb-0 text-white-50">Air pollution is the contamination of air due to the presence of substances in the atmosphere that are harmful to the health of humans and other living beings, or cause damage to the climate or to materials</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Project Two Row-->
-                <div class="row gx-0 justify-content-center">
-                    <div class="col-lg-6"><img class="img-fluid" src="{{ url_for('static', filename='assets2/img/air_health.jpg') }}" alt="..." /></div>
-                    <div class="col-lg-6 order-lg-first">
-                        <div class="bg-black text-center h-100 project">
-                            <div class="d-flex h-100">
-                                <div class="project-text w-100 my-auto text-center text-lg-right">
-                                    <h4 class="text-white">Health</h4>
-                                    <p class="mb-0 text-white-50">Our air quality and health project aims to demonstrate the correlation between air quality and diseases/deaths. The data we provide helps us showcase the number of deaths associated with poor air quality and how our lives can improve when we focus on a better environment</p>
+                    <!-- Project Two Row-->
+                    <div class="row gx-0 justify-content-center">
+                        <div class="col-lg-6"><img class="img-fluid" src="{{ url_for('static', filename='assets2/img/air_health.jpg') }}" alt="..." /></div>
+                        <div class="col-lg-6 order-lg-first">
+                            <div class="bg-black text-center h-100 project">
+                                <div class="d-flex h-100">
+                                    <div class="project-text w-100 my-auto text-center text-lg-right">
+                                        <h4 class="text-white">Health</h4>
+                                        <p class="mb-0 text-white-50">Our air quality and health project aims to demonstrate the correlation between air quality and diseases/deaths. The data we provide helps us showcase the number of deaths associated with poor air quality and how our lives can improve when we focus on a better environment</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>    
                 </div>
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -121,21 +119,22 @@
 
                     </p>
                     <!--Air quality widget -->
-                    <div id="mutiple-city-aqi"></div>
-                    <span id="mutiple-city-aqi"></span> 
+                    <div id="mutiple-city-aqi"></div> 
                     <script type="text/javascript" charset="utf-8">
-                        var cities = ["stockholm", "london", "beijing", "brunswick", "lagos", "brasilia"];
-                        
-                        var aqiWidgetConfig = [];
-                        cities.forEach(function(city) {
-                            aqiWidgetConfig.push({ city: city, callback: displayCity });
+                        document.addEventListener("DOMContentLoaded", function() {
+                            var cities = ["stockholm", "london", "beijing", "brunswick", "lagos", "brasilia"];
+                            
+                            var aqiWidgetConfig = [];
+                            cities.forEach(function(city) {
+                                aqiWidgetConfig.push({ city: city, callback: displayCity });
+                            });
+                    
+                            _aqiFeed(aqiWidgetConfig);
+                    
+                            function displayCity(aqi) {
+                                $("#mutiple-city-aqi").append(aqi.text("<center>%cityname<br>%aqi<br><small>%date</small></center>"));
+                            }
                         });
-                
-                        _aqiFeed(aqiWidgetConfig);
-                
-                        function displayCity(aqi) {
-                            $("#mutiple-city-aqi").append(aqi.text("<center>%cityname<br>%aqi<br><small>%date</small></center>"));
-                        }
                     </script>
                 </div>
             </div>
