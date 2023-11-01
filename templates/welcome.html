@@ -109,23 +109,31 @@
                         
                         The goal in 2030 is to address various global challenges, including poverty, inequality, climate change, environmental degradation, peace, and justice. They serve as a blueprint for a better and more sustainable future for all, aiming to create a world that is more inclusive, equitable, and environmentally friendly
                     
-                        <h5 class="text-black mb-5"><br>Click on the link below to go to read UN Global Goals for Sustainability!</h4>
-                        <a href="https://sdgs.un.org/goals">Global Goals for Sustainability</a><br><br>
+                        <p class="text-black mb-5">Click on the link below to read the UN Global Goals for Sustainability!</p>
+                        <a href="https://sdgs.un.org/goals" target="_blank">Global Goals for Sustainability</a>
 
-                        <h5 class="text-black mb-5"><br>Click on the link below to go to read The World Health Organizations topics on air pollution</h4>
-                        <a href="https://www.who.int/health-topics/air-pollution#tab=tab_1">Air pollution and impact</a><br><br>
+                        <p class="text-black mb-5">Click on the link below to go to read The World Health Organizations topics on air pollution</p>
+                        <a href="https://www.who.int/health-topics/air-pollution#tab=tab_1" target="_blank">Air pollution and impact</a>
 
-                        <h5 class="text-black mb-5"><br>Click on the link below to go to read The Institute for Health Metrics and Evaluations analysis on air pollution</h4>
-                        <a href="https://www.healthdata.org/research-analysis/health-risks-issues/air-pollution">Air pollution and health risks</a><br><br>
+                        <p class="text-black mb-5">Click on the link below to go to read The Institute for Health Metrics and Evaluations analysis on air pollution</p>
+                        <a href="https://www.healthdata.org/research-analysis/health-risks-issues/air-pollution" target="_blank">Air pollution and health risks</a>
+
                     </p>
                     <!--Air quality widget -->
-                    <div>
-                        <p>Below is the air quality widget for Stockholm:</p>
-                        <span id="city-aqi-container"></span>
-                    </div>
-                    <span  id="city-aqi-container"></span>  
-                    <script  type="text/javascript"  charset="utf-8">  
-                        _aqiFeed({  container:"city-aqi-container",  city:"stockholm"  });  
+                    <div id="mutiple-city-aqi"></div>
+                    <script type="text/javascript" charset="utf-8">
+                        var cities = ["stockholm", "london", "beijing", "brunswick", "lagos", "brasilia"];
+                        
+                        var aqiWidgetConfig = [];
+                        cities.forEach(function(city) {
+                            aqiWidgetConfig.push({ city: city, callback: displayCity });
+                        });
+                
+                        _aqiFeed(aqiWidgetConfig);
+                
+                        function displayCity(aqi) {
+                            $("#mutiple-city-aqi").append(aqi.text("<center>%cityname<br>%aqi<br><small>%date</small></center>"));
+                        }
                     </script>
                 </div>
             </div>
