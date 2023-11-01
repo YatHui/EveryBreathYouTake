@@ -41,7 +41,7 @@
                 _aqiFeed(aqiWidgetConfig);
 
                 function displayCity(aqi) {
-                document.getElementById("mutiple-city-aqi").innerHTML += (aqi.text("<center class='city'>%cityname<br>%aqi<br><small>%date</small></center>"));
+                document.getElementById("mutiple-city-aqi").innerHTML += (aqi.text("<center class='city'>%cityname<br>%aqi<br></center>"));
                 };    
         </script>
         
@@ -133,7 +133,10 @@
                             <a href="https://www.healthdata.org/research-analysis/health-risks-issues/air-pollution" target="_blank">Click here to read The Institute for Health Metrics and Evaluations analysis on air pollution</a><br><br>
     
                         </p>
-                        <p class="mb-0 text-black-50">Total air quality index based on different types of pollution.</p>
+                        <p class="mb-0 text-black-50">Total air quality index (AQI) based on different types of pullution as defined by 
+                            <a href="https://www.epa.gov/criteria-air-pollutants/naaqs-table" target="_blank">US-EPA 2016 standard</a>
+                        </p>
+                        
                         <!--Air quality widgets -->
                         <div class="air_container" id="mutiple-city-aqi"></div>
                     </div>
