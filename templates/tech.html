@@ -21,6 +21,36 @@
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
         </style>
+        <!-- Air Quality API-->
+        <script  type="text/javascript"  charset="utf-8">  
+            (function(w, d, t, f) {
+                w[f] = w[f] || function(c, k, n) {
+                    s = w[f], k = s['k'] = (s['k'] || (k ? ('&k=' + k) : ''));
+                    s['c'] =
+                    c = (c instanceof Array) ? c : [c];
+                    s['n'] = n = n || 0;
+                    L = d.createElement(t), e = d.getElementsByTagName(t)[0];
+                    L.async = 1;
+                    L.src = 'https://feed.aqicn.org/feed/' + (c[n].city) + '/' + (c[n].lang || '') + '/feed.v1.js?n=' + n + k;
+                    e.parentNode.insertBefore(L, e);
+                };
+                })(window, document, 'script', '_aqiFeed');
+
+                var cities = ["stockholm", "london", "beijing", "johannesburg", "houston", "tehran"];
+
+                var aqiWidgetConfig = [];
+                cities.forEach(function(city) {
+                aqiWidgetConfig.push({
+                    city: city,
+                    callback: displayCity
+                });
+                });
+                _aqiFeed(aqiWidgetConfig);
+
+                function displayCity(aqi) {
+                document.getElementById("mutiple-city-aqi").innerHTML += (aqi.text("<center class='city'>%cityname<br>%aqi<br></center>"));
+                };    
+        </script>
         
     </head>
     <body id="page-top">
@@ -36,7 +66,8 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('plotsPage') }}">Health and Air Pollution</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('predictionsPage') }}">Air Quality and Goals</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('workflowPage') }}">Workflow</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('workflowPage') }}">Behind the scenes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('techPage') }}">What you can do</a></li>
                     </ul>
                 </div>
             </div>
@@ -53,6 +84,22 @@
             </div>
         </header>
         <!-- About-->
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-lg-6">
+                <h2 class="text-black mb-4"><br><br>Insights to help you stay ahead of change</h2>
+                <p class="mb-0 text-black-50">
+                    
+                    The goal in 2030 is to address various global challenges, including poverty, inequality, climate change, environmental degradation, peace, and justice. 
+                    They serve as a blueprint for a better and more sustainable future for all, aiming to create a world that is more inclusive, equitable, and environmentally friendly<br><br>
+                
+                    <a href="https://sdgs.un.org/goals" target="_blank">Click here to read the UN Global Goals for Sustainability!</a><br>
+                    <a href="https://www.who.int/health-topics/air-pollution#tab=tab_1" target="_blank">Click here to read The World Health Organizations topics on air pollution</a><br>
+                    <a href="https://www.healthdata.org/research-analysis/health-risks-issues/air-pollution" target="_blank">Click here to read The Institute for Health Metrics and Evaluations analysis on air pollution</a><br><br>
+
+                </p>
+                
+            </div>
+        </div>
 
         <!-- Chat bot-->
         <section class="projects-section bg-light" id="projects">
@@ -113,37 +160,13 @@
             </div>
             <br><br>
 
-               
-                <!-- Project One Row-->
-                <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
-                    <div class="col-lg-6"><img class="img-fluid" src="{{ url_for('static', filename='assets2/img/maarten-van-den-heuvel-documents.jpg') }}" alt="..." /></div>
-                    <div class="col-lg-6">
-                        <div class="bg-black text-center h-100 project">
-                            <div class="d-flex h-100">
-                                <div class="project-text w-100 my-auto text-center text-lg-left">
-                                    <h4 class="text-white">How?</h4>
-                                    <p class="mb-0 text-white-50">Initially, we obtained datasets from reputable sources like the World Health Organization and Our World In Data. This information was then stored in an AWS Relational Database in the cloud.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <p class="mb-0 text-black-50">Total air quality index (AQI) based on different types of pullution as defined by 
+                    <a href="https://www.epa.gov/criteria-air-pollutants/naaqs-table" target="_blank">US-EPA 2016 standard</a>
+                </p>
                 
+                <!--Air quality widgets -->
+                <div class="air_container" id="mutiple-city-aqi"></div>  
 
-                <!-- Project Two Row-->
-                <div class="row gx-0 justify-content-center">
-                    <div class="col-lg-6"><img class="img-fluid" src="{{ url_for('static', filename='assets2/img/bobby-donald-flask.jpg') }}" alt="..." /></div>
-                    <div class="col-lg-6 order-lg-first">
-                        <div class="bg-black text-center h-100 project">
-                            <div class="d-flex h-100">
-                                <div class="project-text w-100 my-auto text-center text-lg-right">
-                                    <h4 class="text-white">Then...</h4>
-                                    <p class="mb-0 text-white-50">...we harmonized the data and created interactive graphs for visualizing the information. Along with comprehensive explanatory details, everything was consolidated on a website developed using Flask.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 

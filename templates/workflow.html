@@ -28,7 +28,8 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('plotsPage') }}">Health and Air Pollution</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('predictionsPage') }}">Air Quality and Goals</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('workflowPage') }}">Workflow</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('workflowPage') }}">Behind the scenes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('techPage') }}">What you can do</a></li>
                     </ul>
                 </div>
             </div>
@@ -55,7 +56,8 @@
                     <div class="col-xl-4 col-lg-5">
                         <div class="featured-text text-center text-lg-left">
                             <h4>Why?</h4>
-                            <p class="text-black-50 mb-0">Sustainability is arguably the most crucial issue facing humanity today. We aim to highlight the data behind something many take for granted: clean air that is safe to breathe!</p>
+                            <p class="text-black-50 mb-0">Sustainability is arguably the most crucial issue facing humanity today. 
+                                Visualisation makes it easy to make sense of the data so we can make data-driven decisions. We want to highlight the data behind something many take for granted: clean air that is safe to breathe!</p>
                         </div>
                     </div>
                 </div>
@@ -67,7 +69,7 @@
                             <div class="d-flex h-100">
                                 <div class="project-text w-100 my-auto text-center text-lg-left">
                                     <h4 class="text-white">How?</h4>
-                                    <p class="mb-0 text-white-50">Initially, we obtained datasets from reputable sources like the World Health Organization and Our World In Data. This information was then stored in an AWS Relational Database in the cloud.</p>
+                                    <p class="mb-0 text-white-50">We obtained datasets from reputable sources like the World Health Organization and Our World In Data. Once we have extracted and transformed the data to tell our story, the data is then stored in the cloud on an AWS Relational Database. (or name of the service?)</p>
                                 </div>
                             </div>
                         </div>
@@ -81,9 +83,20 @@
                             <div class="d-flex h-100">
                                 <div class="project-text w-100 my-auto text-center text-lg-right">
                                     <h4 class="text-white">Then...</h4>
-                                    <p class="mb-0 text-white-50">...we harmonized the data and created interactive graphs for visualizing the information. Along with comprehensive explanatory details, everything was consolidated on a website developed using Flask.</p>
+                                    <p class="mb-0 text-white-50">...we pulled from the database to visualise this health and air quality data with interactive graphs. We use these graphs to create data stories on a website developed using Flask and hosted on AWS EC2.</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- About us-->
+                <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
+                    <div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src="{{ url_for('static', filename='assets2/img/frederic-paulussen-factory.jpg') }}" alt="..." /></div>
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="featured-text text-center text-lg-left">
+                            <h4>The Team</h4>
+                            <p class="text-black-50 mb-0">We are four students on the <a href="https://www.academicwork.se/academy/utbildning?gad_source=1&gclid=CjwKCAjwkY2qBhBDEiwAoQXK5cyaGSploKaW-9AqHFb2pdNpJZdqb0x7pvqeI5oStnxxeEW4tN4LDxoCwdkQAvD_BwE" target="_blank"> AW Academy’s</a> 12 weeks’s 
+                                intensive course in Data Engineering. This is our graduation project which we made in the last two weeks of the course. Check out our <a href="https://docs.google.com/presentation/d/1pnwHVkiCITb0tduPKcIT7jyLcmflr1um1MptO-J-Zs0/edit?usp=sharing" target="_blank">presentation</a> and repo on <a href="https://github.com/ArazNabi/final_project" target="_blank">GitHub.</a></p>
                         </div>
                     </div>
                 </div>
